@@ -2103,6 +2103,8 @@
         overlay.innerHTML = `
           <div class="glowOrb orb1"></div>
           <div class="glowOrb orb2"></div>
+          <div class="glowOrb orb3"></div>
+          <div class="glowOrb orb4"></div>
           <div class="loaderCard">
             <div class="radarContainer">
               <div class="radarOuter"></div>
@@ -2153,16 +2155,16 @@
 
         try {
           addLog('Initializing GRC parsing sandbox...', 'active', 25);
-          await new Promise(r => setTimeout(r, 600));
+          await new Promise(r => setTimeout(r, 200));
           
           addLog('Extracting policy obligations...', 'active', 55);
-          await new Promise(r => setTimeout(r, 700));
+          await new Promise(r => setTimeout(r, 250));
           
           addLog('Scanning scope contradictions...', 'active', 80);
-          await new Promise(r => setTimeout(r, 800));
+          await new Promise(r => setTimeout(r, 200));
           
           addLog('Compiling final alignment reports...', 'active', 95);
-          await new Promise(r => setTimeout(r, 500));
+          await new Promise(r => setTimeout(r, 150));
           
           // Trigger actual backend/mock request
           await oldAnalyse(e);

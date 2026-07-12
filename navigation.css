@@ -93,25 +93,37 @@ body.presentation .panel {
 /* Futuristic Background Ambient Glow Orbs */
 .glowOrb {
   position: absolute;
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.32;
+  filter: blur(140px);
+  opacity: 0.35;
   z-index: -1;
   pointer-events: none;
 }
 .orb1 {
   background: #0ea5e9;
-  top: -100px;
-  left: -100px;
+  top: -150px;
+  left: -150px;
   animation: floatOrb1 15s infinite alternate ease-in-out;
 }
 .orb2 {
   background: #8b5cf6;
-  bottom: -100px;
-  right: -100px;
+  bottom: -150px;
+  right: -150px;
   animation: floatOrb2 15s infinite alternate ease-in-out;
+}
+.orb3 {
+  background: #06b6d4;
+  top: 30%;
+  right: -200px;
+  animation: floatOrb3 18s infinite alternate ease-in-out;
+}
+.orb4 {
+  background: #ec4899;
+  bottom: 30%;
+  left: -200px;
+  animation: floatOrb4 18s infinite alternate ease-in-out;
 }
 @keyframes floatOrb1 {
   0% { transform: translate(0, 0) scale(1); }
@@ -122,6 +134,16 @@ body.presentation .panel {
   0% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(-60px, -60px) scale(0.9); }
   100% { transform: translate(40px, -20px) scale(1.15); }
+}
+@keyframes floatOrb3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 80px) scale(1.05); }
+  100% { transform: translate(60px, -40px) scale(0.9); }
+}
+@keyframes floatOrb4 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(80px, -60px) scale(0.95); }
+  100% { transform: translate(-40px, 40px) scale(1.1); }
 }
 
 .loaderCard {
