@@ -2135,8 +2135,8 @@
     let documents = [], lastResult, activePolicy = '';
     
     const samples = [
-      ['Password Policy.md', 'Password Policy\nLast Reviewed: 2021-08-15\nSection 1.1 Passwords must contain at least 12 characters.\nSection 1.2 Passwords shall be changed every 90 days.'],
-      ['Cloud Identity Policy.md', 'Cloud Identity Policy\nLast Reviewed: 2026-01-10\nSection 2.1 Passwords must contain at least 14 characters.\nSection 2.2 Password rotation is not required.']
+      ['Password Policy.md', 'Password Policy\nLast Reviewed: 2024-11-01\nSection 1.1 Passwords must contain at least 12 characters.\nSection 1.2 Passwords shall be changed every 90 days.'],
+      ['Cloud Identity Policy.md', 'Cloud Identity Policy\nLast Reviewed: 2026-03-20\nSection 2.1 Passwords must contain at least 14 characters.\nSection 2.2 Password rotation is not required.']
     ];
 
 
@@ -2481,7 +2481,7 @@
               }
             } catch (err) {
               console.warn("OCR failed, seeding GRC statements:", err);
-              docObj.text = `Cloud Identity Policy\nLast Reviewed: 2026-01-10\nSection 2.1 Passwords must contain at least 14 characters.\nSection 2.2 Password rotation is not required.\nSection 2.3 Single Sign-On (SSO) shall be enabled for all cloud console connections.`;
+              docObj.text = `Cloud Identity Policy\nLast Reviewed: 2026-03-20\nSection 2.1 Passwords must contain at least 14 characters.\nSection 2.2 Password rotation is not required.\nSection 2.3 Single Sign-On (SSO) shall be enabled for all cloud console connections.`;
               toast('OCR Simulated', `Parsed obligations from image ${f.name}.`);
             } finally {
               docObj.isParsing = false;
