@@ -1,0 +1,81 @@
+finding_subtype,explanation,policy_b,policy,severity,description,finding_type,policy_a
+DIRECT_CONFLICT,"policy_05.md requires X, but policy_26.md prohibits X.",policy_26.md,,HIGH,Direct contradiction between policy_05.md and policy_26.md on vendor.,CONFLICT,policy_05.md
+DIRECT_CONFLICT,"policy_02.md requires X, but policy_07.md prohibits X.",policy_07.md,,HIGH,Direct contradiction between policy_02.md and policy_07.md on HR.,CONFLICT,policy_02.md
+DIRECT_CONFLICT,"policy_05.md requires X, but policy_23.md prohibits X.",policy_23.md,,HIGH,Direct contradiction between policy_05.md and policy_23.md on HR.,CONFLICT,policy_05.md
+DIRECT_CONFLICT,"policy_29.md requires X, but policy_28.md prohibits X.",policy_28.md,,HIGH,Direct contradiction between policy_29.md and policy_28.md on asset.,CONFLICT,policy_29.md
+DIRECT_CONFLICT,"policy_12.md requires X, but policy_24.md prohibits X.",policy_24.md,,HIGH,Direct contradiction between policy_12.md and policy_24.md on data retention.,CONFLICT,policy_12.md
+DIRECT_CONFLICT,"policy_30.md requires X, but policy_09.md prohibits X.",policy_09.md,,HIGH,Direct contradiction between policy_30.md and policy_09.md on logging.,CONFLICT,policy_30.md
+DIRECT_CONFLICT,"policy_28.md requires X, but policy_03.md prohibits X.",policy_03.md,,HIGH,Direct contradiction between policy_28.md and policy_03.md on network.,CONFLICT,policy_28.md
+DIRECT_CONFLICT,"policy_24.md requires X, but policy_12.md prohibits X.",policy_12.md,,HIGH,Direct contradiction between policy_24.md and policy_12.md on encryption.,CONFLICT,policy_24.md
+DIRECT_CONFLICT,"policy_04.md requires X, but policy_10.md prohibits X.",policy_10.md,,HIGH,Direct contradiction between policy_04.md and policy_10.md on vendor.,CONFLICT,policy_04.md
+DIRECT_CONFLICT,"policy_06.md requires X, but policy_19.md prohibits X.",policy_19.md,,HIGH,Direct contradiction between policy_06.md and policy_19.md on data retention.,CONFLICT,policy_06.md
+DIRECT_CONFLICT,"policy_09.md requires X, but policy_17.md prohibits X.",policy_17.md,,HIGH,Direct contradiction between policy_09.md and policy_17.md on provisioning.,CONFLICT,policy_09.md
+DIRECT_CONFLICT,"policy_18.md requires X, but policy_27.md prohibits X.",policy_27.md,,HIGH,Direct contradiction between policy_18.md and policy_27.md on patch.,CONFLICT,policy_18.md
+DIRECT_CONFLICT,"policy_15.md requires X, but policy_25.md prohibits X.",policy_25.md,,HIGH,Direct contradiction between policy_15.md and policy_25.md on provisioning.,CONFLICT,policy_15.md
+DIRECT_CONFLICT,"policy_09.md requires X, but policy_03.md prohibits X.",policy_03.md,,HIGH,Direct contradiction between policy_09.md and policy_03.md on access.,CONFLICT,policy_09.md
+DIRECT_CONFLICT,"policy_21.md requires X, but policy_08.md prohibits X.",policy_08.md,,HIGH,Direct contradiction between policy_21.md and policy_08.md on password.,CONFLICT,policy_21.md
+PARTIAL_CONFLICT,"policy_03.md applies to all users, policy_30.md to admins only.",policy_30.md,,MEDIUM,Scope-dependent contradiction between policy_03.md and policy_30.md on backup.,CONFLICT,policy_03.md
+PARTIAL_CONFLICT,"policy_25.md applies to all users, policy_30.md to admins only.",policy_30.md,,MEDIUM,Scope-dependent contradiction between policy_25.md and policy_30.md on provisioning.,CONFLICT,policy_25.md
+PARTIAL_CONFLICT,"policy_06.md applies to all users, policy_11.md to admins only.",policy_11.md,,MEDIUM,Scope-dependent contradiction between policy_06.md and policy_11.md on api.,CONFLICT,policy_06.md
+PARTIAL_CONFLICT,"policy_19.md applies to all users, policy_04.md to admins only.",policy_04.md,,MEDIUM,Scope-dependent contradiction between policy_19.md and policy_04.md on backup.,CONFLICT,policy_19.md
+PARTIAL_CONFLICT,"policy_16.md applies to all users, policy_26.md to admins only.",policy_26.md,,MEDIUM,Scope-dependent contradiction between policy_16.md and policy_26.md on endpoint.,CONFLICT,policy_16.md
+PARTIAL_CONFLICT,"policy_15.md applies to all users, policy_12.md to admins only.",policy_12.md,,MEDIUM,Scope-dependent contradiction between policy_15.md and policy_12.md on endpoint.,CONFLICT,policy_15.md
+PARTIAL_CONFLICT,"policy_28.md applies to all users, policy_16.md to admins only.",policy_16.md,,MEDIUM,Scope-dependent contradiction between policy_28.md and policy_16.md on asset.,CONFLICT,policy_28.md
+PARTIAL_CONFLICT,"policy_02.md applies to all users, policy_07.md to admins only.",policy_07.md,,MEDIUM,Scope-dependent contradiction between policy_02.md and policy_07.md on logging.,CONFLICT,policy_02.md
+PARTIAL_CONFLICT,"policy_16.md applies to all users, policy_22.md to admins only.",policy_22.md,,MEDIUM,Scope-dependent contradiction between policy_16.md and policy_22.md on password.,CONFLICT,policy_16.md
+PARTIAL_CONFLICT,"policy_15.md applies to all users, policy_25.md to admins only.",policy_25.md,,MEDIUM,Scope-dependent contradiction between policy_15.md and policy_25.md on patch.,CONFLICT,policy_15.md
+REDUNDANCY,Both require the same action on encryption.,policy_18.md,,LOW,Duplicate or near-duplicate obligations in policy_13.md and policy_18.md.,REDUNDANCY,policy_13.md
+REDUNDANCY,Both require the same action on encryption.,policy_06.md,,LOW,Duplicate or near-duplicate obligations in policy_10.md and policy_06.md.,REDUNDANCY,policy_10.md
+REDUNDANCY,Both require the same action on cloud.,policy_13.md,,LOW,Duplicate or near-duplicate obligations in policy_06.md and policy_13.md.,REDUNDANCY,policy_06.md
+REDUNDANCY,Both require the same action on change.,policy_08.md,,LOW,Duplicate or near-duplicate obligations in policy_01.md and policy_08.md.,REDUNDANCY,policy_01.md
+REDUNDANCY,Both require the same action on endpoint.,policy_16.md,,LOW,Duplicate or near-duplicate obligations in policy_26.md and policy_16.md.,REDUNDANCY,policy_26.md
+REDUNDANCY,Both require the same action on asset.,policy_03.md,,LOW,Duplicate or near-duplicate obligations in policy_21.md and policy_03.md.,REDUNDANCY,policy_21.md
+REDUNDANCY,Both require the same action on vendor.,policy_06.md,,LOW,Duplicate or near-duplicate obligations in policy_01.md and policy_06.md.,REDUNDANCY,policy_01.md
+REDUNDANCY,Both require the same action on backup.,policy_06.md,,LOW,Duplicate or near-duplicate obligations in policy_01.md and policy_06.md.,REDUNDANCY,policy_01.md
+REDUNDANCY,Both require the same action on privacy.,policy_11.md,,LOW,Duplicate or near-duplicate obligations in policy_02.md and policy_11.md.,REDUNDANCY,policy_02.md
+REDUNDANCY,Both require the same action on monitoring.,policy_20.md,,LOW,Duplicate or near-duplicate obligations in policy_28.md and policy_20.md.,REDUNDANCY,policy_28.md
+REDUNDANCY,Both require the same action on third-party.,policy_23.md,,LOW,Duplicate or near-duplicate obligations in policy_12.md and policy_23.md.,REDUNDANCY,policy_12.md
+REDUNDANCY,Both require the same action on vendor.,policy_20.md,,LOW,Duplicate or near-duplicate obligations in policy_09.md and policy_20.md.,REDUNDANCY,policy_09.md
+REDUNDANCY,Both require the same action on logging.,policy_12.md,,LOW,Duplicate or near-duplicate obligations in policy_06.md and policy_12.md.,REDUNDANCY,policy_06.md
+REDUNDANCY,Both require the same action on patch.,policy_19.md,,LOW,Duplicate or near-duplicate obligations in policy_29.md and policy_19.md.,REDUNDANCY,policy_29.md
+REDUNDANCY,Both require the same action on change.,policy_14.md,,LOW,Duplicate or near-duplicate obligations in policy_20.md and policy_14.md.,REDUNDANCY,policy_20.md
+REDUNDANCY,Both require the same action on asset.,policy_19.md,,LOW,Duplicate or near-duplicate obligations in policy_18.md and policy_19.md.,REDUNDANCY,policy_18.md
+REDUNDANCY,Both require the same action on third-party.,policy_11.md,,LOW,Duplicate or near-duplicate obligations in policy_09.md and policy_11.md.,REDUNDANCY,policy_09.md
+REDUNDANCY,Both require the same action on endpoint.,policy_22.md,,LOW,Duplicate or near-duplicate obligations in policy_08.md and policy_22.md.,REDUNDANCY,policy_08.md
+REDUNDANCY,Both require the same action on network.,policy_29.md,,LOW,Duplicate or near-duplicate obligations in policy_28.md and policy_29.md.,REDUNDANCY,policy_28.md
+REDUNDANCY,Both require the same action on monitoring.,policy_17.md,,LOW,Duplicate or near-duplicate obligations in policy_15.md and policy_17.md.,REDUNDANCY,policy_15.md
+STALE_POLICY,Last review date is stale.,,policy_30.md,MEDIUM,policy_30.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_10.md,MEDIUM,policy_10.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_25.md,MEDIUM,policy_25.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_06.md,MEDIUM,policy_06.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_30.md,MEDIUM,policy_30.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_24.md,MEDIUM,policy_24.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_11.md,MEDIUM,policy_11.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_08.md,MEDIUM,policy_08.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_18.md,MEDIUM,policy_18.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_19.md,MEDIUM,policy_19.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_13.md,MEDIUM,policy_13.md not reviewed in 18+ months.,STALE,
+STALE_POLICY,Last review date is stale.,,policy_06.md,MEDIUM,policy_06.md not reviewed in 18+ months.,STALE,
+STALE_REFERENCE,Mentions WEP.,,policy_23.md,LOW,policy_23.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions SHA-1.,,policy_10.md,LOW,policy_10.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions TLS 1.0.,,policy_21.md,LOW,policy_21.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions GDPR 2016.,,policy_12.md,LOW,policy_12.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions SHA-1.,,policy_18.md,LOW,policy_18.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions SOX 2002.,,policy_16.md,LOW,policy_16.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions NIST SP 800-53 Rev 4.,,policy_21.md,LOW,policy_21.md references deprecated technology or regulation.,STALE,
+STALE_REFERENCE,Mentions TLS 1.0.,,policy_22.md,LOW,policy_22.md references deprecated technology or regulation.,STALE,
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_16.md,,LOW,"Apparent conflict between policy_22.md and policy_16.md, but different scopes.",CONFLICT,policy_22.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_09.md,,LOW,"Apparent conflict between policy_13.md and policy_09.md, but different scopes.",CONFLICT,policy_13.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_19.md,,LOW,"Apparent conflict between policy_16.md and policy_19.md, but different scopes.",CONFLICT,policy_16.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_21.md,,LOW,"Apparent conflict between policy_28.md and policy_21.md, but different scopes.",CONFLICT,policy_28.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_15.md,,LOW,"Apparent conflict between policy_19.md and policy_15.md, but different scopes.",CONFLICT,policy_19.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_03.md,,LOW,"Apparent conflict between policy_02.md and policy_03.md, but different scopes.",CONFLICT,policy_02.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_16.md,,LOW,"Apparent conflict between policy_11.md and policy_16.md, but different scopes.",CONFLICT,policy_11.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_16.md,,LOW,"Apparent conflict between policy_21.md and policy_16.md, but different scopes.",CONFLICT,policy_21.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_21.md,,LOW,"Apparent conflict between policy_02.md and policy_21.md, but different scopes.",CONFLICT,policy_02.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_01.md,,LOW,"Apparent conflict between policy_05.md and policy_01.md, but different scopes.",CONFLICT,policy_05.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_18.md,,LOW,"Apparent conflict between policy_09.md and policy_18.md, but different scopes.",CONFLICT,policy_09.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_02.md,,LOW,"Apparent conflict between policy_15.md and policy_02.md, but different scopes.",CONFLICT,policy_15.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_09.md,,LOW,"Apparent conflict between policy_03.md and policy_09.md, but different scopes.",CONFLICT,policy_03.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_02.md,,LOW,"Apparent conflict between policy_26.md and policy_02.md, but different scopes.",CONFLICT,policy_26.md
+FALSE_POSITIVE_PRONE,"Appears conflicting, but applies to different user groups.",policy_19.md,,LOW,"Apparent conflict between policy_08.md and policy_19.md, but different scopes.",CONFLICT,policy_08.md

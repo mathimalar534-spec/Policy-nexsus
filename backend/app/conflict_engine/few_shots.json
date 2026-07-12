@@ -1,0 +1,42 @@
+[
+  {
+    "obligation_a": "Developers recommended patch.",
+    "obligation_b": "Contractors shall patch.",
+    "label": "CONFLICT"
+  },
+  {
+    "obligation_a": "Passwords must contain at least 12 characters and undergo reset every 90 days.",
+    "obligation_b": "Password rotation is not required under any circumstances.",
+    "label": "CONFLICT"
+  },
+  {
+    "obligation_a": "Passwords must contain at least 12 characters and undergo reset every 90 days.",
+    "obligation_b": "All credentials must have at least 12 symbols and change quarterly.",
+    "label": "REDUNDANT"
+  },
+  {
+    "obligation_a": "Corporate accounts shall enforce a minimum 14-character password length.",
+    "obligation_b": "It is mandatory to use passwords with a minimum length of 14 characters.",
+    "label": "REDUNDANT"
+  },
+  {
+    "obligation_a": "Passwords must contain at least 12 characters and undergo reset every 90 days.",
+    "obligation_b": "Corporate accounts shall enforce a minimum 14-character password length.",
+    "label": "COMPLEMENTARY"
+  },
+  {
+    "obligation_a": "Passwords must contain at least 12 characters and undergo reset every 90 days.",
+    "obligation_b": "User passwords must combine uppercase, lowercase, and numeric digits.",
+    "label": "COMPLEMENTARY"
+  },
+  {
+    "obligation_a": "Contractors must backup.",
+    "obligation_b": "Admins must backup.",
+    "label": "UNRELATED"
+  },
+  {
+    "obligation_a": "Contractors must backup.",
+    "obligation_b": "Admins required backup.",
+    "label": "UNRELATED"
+  }
+]

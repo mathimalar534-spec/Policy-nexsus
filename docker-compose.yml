@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: policy_detector_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: policy_detector
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d policy_detector"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: policy_detector_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: policy_detector_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_NAME=Policy Conflict & Staleness Detector
+      - DATABASE_URL=postgresql://postgres:postgrespassword@db:5432/policy_detector
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - UPLOAD_DIR=/app/uploads
+      - SAMPLE_DATA_DIR=/app/sample_data
+      - FAISS_INDEX_PATH=/app/faiss_index
+      - LLM_API_TYPE=mock
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+      - faiss_data:/app/faiss_index
+      - ./sample_data:/app/sample_data
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: policy_detector_worker
+    command: celery -A app.services.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespassword@db:5432/policy_detector
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - UPLOAD_DIR=/app/uploads
+      - SAMPLE_DATA_DIR=/app/sample_data
+      - FAISS_INDEX_PATH=/app/faiss_index
+      - LLM_API_TYPE=mock
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+      - faiss_data:/app/faiss_index
+      - ./sample_data:/app/sample_data
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: policy_detector_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  uploads_data:
+  faiss_data:

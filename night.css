@@ -1,0 +1,240 @@
+/* night.css - Dark Theme: Obsidian & Deep Navy theme variable overrides */
+
+body.dark {
+  --bg-main: #080c16;
+  --bg-panel: #101622;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: #1e293b;
+  --primary: #0ea5e9;
+  --primary-hover: #38bdf8;
+}
+
+body.dark, body.dark .sidebar, body.dark header {
+  background-color: var(--bg-main) !important;
+}
+
+body.dark * {
+  color-scheme: dark;
+}
+
+body.dark .sidebar {
+  border-right-color: var(--border) !important;
+}
+body.dark .sidebar .sideBrand {
+  background-color: #0b0f19 !important;
+  color: var(--text-main) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.dark .sidebar nav button {
+  color: var(--text-muted) !important;
+}
+body.dark .sidebar nav button:hover {
+  background-color: #101622 !important;
+  color: var(--primary) !important;
+}
+body.dark .sidebar nav button.bg-accent {
+  background-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+body.dark .sideFooter {
+  color: var(--text-muted) !important;
+  border-top-color: var(--border) !important;
+}
+
+body.dark header {
+  border-bottom-color: var(--border) !important;
+}
+
+body.dark #policySearch {
+  background-color: #101622 !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+
+body.dark .iconButton:hover {
+  background-color: #1e293b !important;
+}
+
+body.dark .panel {
+  background-color: var(--bg-panel) !important;
+  border-color: var(--border) !important;
+}
+
+/* Ingestion panel */
+body.dark .uploadBox {
+  background-color: #0b0f19 !important;
+  border-color: #334155 !important;
+}
+body.dark .uploadBox:hover {
+  border-color: var(--primary) !important;
+  background-color: #101622 !important;
+}
+body.dark .uploadBox .icon {
+  color: #94a3b8 !important;
+}
+body.dark .pasteBox input, body.dark .pasteBox textarea {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+body.dark .pasteBox input:focus, body.dark .pasteBox textarea:focus {
+  border-color: var(--primary) !important;
+}
+
+body.dark .button.secondary {
+  background-color: #1e293b !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+body.dark .button.secondary:hover {
+  background-color: #334155 !important;
+}
+body.dark .button.danger {
+  background-color: #450a0a !important;
+  color: #fca5a5 !important;
+  border-color: #7f1d1d !important;
+}
+body.dark .button.danger:hover {
+  background-color: #7f1d1d !important;
+}
+
+body.dark .file {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+
+/* KPI metric boxes */
+body.dark .metric {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+}
+body.dark .metric strong {
+  color: var(--text-main) !important;
+}
+body.dark .metric span {
+  color: var(--text-muted) !important;
+}
+body.dark .clickMetric:hover {
+  border-color: var(--primary) !important;
+  background-color: #101622 !important;
+}
+
+body.dark .widgetCircle {
+  background-color: var(--bg-panel) !important;
+}
+
+body.dark .badge {
+  background-color: #1e293b !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+body.dark .border-left-slate {
+  border-left-color: var(--border) !important;
+}
+
+/* Health cards */
+body.dark .health {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+body.dark .health:hover {
+  border-color: var(--primary) !important;
+  background-color: #101622 !important;
+}
+body.dark .health.selected {
+  border-color: var(--primary) !important;
+  background-color: #172554 !important;
+}
+
+/* Findings list */
+body.dark .finding {
+  background-color: var(--bg-panel) !important;
+  border-color: var(--border) !important;
+}
+body.dark .evidence {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+  color: #38bdf8 !important;
+}
+body.dark .findingPolicies b {
+  color: var(--text-muted) !important;
+}
+
+/* Comparisons */
+body.dark .comparison {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+}
+body.dark .comparison.noConflict {
+  background-color: #022c22 !important;
+  border-color: #064e3b !important;
+}
+body.dark .comparison.noConflict .decision {
+  border-color: #064e3b !important;
+}
+
+/* Graph Flex nodes */
+body.dark .node {
+  background-color: #1e293b !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+body.dark .node:hover {
+  background-color: #334155 !important;
+  border-color: var(--primary) !important;
+}
+body.dark .node.selected {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+body.dark .node small {
+  background-color: #0f172a !important;
+  color: var(--text-muted) !important;
+}
+
+/* Timelines */
+body.dark .timelineItem {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+}
+body.dark .timelineItem.overdue {
+  background-color: #450a0a !important;
+  border-left-color: var(--danger) !important;
+}
+body.dark .timelineItem.missing {
+  background-color: #451a03 !important;
+  border-left-color: var(--warning) !important;
+}
+
+/* Bars */
+body.dark .barRow .bar {
+  background-color: #1e293b !important;
+}
+
+/* Tables visual overrides */
+body.dark th {
+  background-color: #0b0f19 !important;
+  color: var(--text-muted) !important;
+  border-bottom-color: var(--border) !important;
+}
+body.dark tr {
+  border-bottom-color: var(--border) !important;
+}
+body.dark tr:hover {
+  background-color: #101622 !important;
+}
+body.dark table {
+  border-color: var(--border) !important;
+}
+
+/* Scoreboard */
+body.dark .complianceScores > div {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+}
+body.dark .complianceScores i {
+  background-color: #1e293b !important;
+}
