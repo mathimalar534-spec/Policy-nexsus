@@ -303,7 +303,7 @@ body.presentation .panel {
 /* Toast Popups */
 #toasts {
   position: fixed;
-  bottom: 24px;
+  top: 24px;
   right: 24px;
   z-index: 999;
   display: flex;
@@ -337,7 +337,7 @@ body.presentation .panel {
 }
 
 @keyframes slideIn {
-  from { transform: translateY(20px); opacity: 0; }
+  from { transform: translateY(-20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
