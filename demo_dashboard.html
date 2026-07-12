@@ -952,6 +952,9 @@
       cursor: pointer;
       text-align: left;
       transition: all 0.2s;
+      font-family: inherit;
+      color: inherit;
+      width: 100%;
     }
     .reviewStatusCard:hover {
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -968,7 +971,7 @@
     .cardHeader {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       gap: 10px;
     }
     .cardHeader strong {
@@ -2864,21 +2867,21 @@
         
         return `
           <button class="reviewStatusCard ${activePolicy === x.policy ? 'selected' : ''}" onclick="filterPolicy('${x.policy.replace(/'/g, "\\'")}')">
-            <div class="cardHeader" style="align-items: center;">
-              <div style="display: flex; gap: 12px; align-items: center; overflow: hidden;">
+            <div class="cardHeader">
+              <div style="display: flex; gap: 12px; align-items: center; overflow: hidden; min-width: 0;">
                 <div class="healthCircle ${circleStatus}" style="width: 36px; height: 36px; font-size: 13px;">${ph.score}</div>
                 <strong>${safe(x.policy)}</strong>
               </div>
-              <span class="statusBadge ${statusClass}">${statusText}</span>
+              <span class="statusBadge ${statusClass}" style="flex-shrink: 0;">${statusText}</span>
             </div>
             <div class="cardBody">
               <div class="cardField">
                 <small>Last Reviewed</small>
-                <span style="font-size: 13px; font-weight: 600;">${safe(formatDate(x.date))}</span>
+                <span>${safe(formatDate(x.date))}</span>
               </div>
               <div class="cardField">
                 <small>Next Review Date</small>
-                <span style="font-size: 13px; font-weight: 600;">${safe(formatDate(nextStr))}</span>
+                <span>${safe(formatDate(nextStr))}</span>
               </div>
             </div>
           </button>
