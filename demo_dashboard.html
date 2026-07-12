@@ -1969,6 +1969,25 @@
         };
       });
       
+      const recMap = new Map();
+      findings.filter(f => f.severity === 'critical' || f.severity === 'high').forEach(f => {
+        if (f.recommendation) {
+          if (!recMap.has(f.recommendation)) {
+            recMap.set(f.recommendation, new Set());
+          }
+          if (f.policies) {
+            f.policies.forEach(p => recMap.get(f.recommendation).add(p));
+          }
+        }
+      });
+      const uniqueRecs = Array.from(recMap.entries()).map(([rec, polSet]) => {
+        const polList = Array.from(polSet);
+        if (polList.length > 0) {
+          return `${rec} (Affects: ${polList.join(', ')})`;
+        }
+        return rec;
+      });
+
       return {
         obligations: all_obligations,
         findings: findings,
@@ -1976,7 +1995,7 @@
         executive: {
           summary: `Compliance audit mapped ${all_obligations.length} controls across ${docs.length} policies. Identified ${findings.filter(f=>f.kind==='CONFLICT').length} contradiction(s) and ${findings.filter(f=>f.kind==='REDUNDANCY').length} redundancy/redundancies.`,
           score: totalScore,
-          recommendations: Array.from(new Set(findings.filter(f => f.severity === 'critical' || f.severity === 'high').map(f => f.recommendation).filter(Boolean)))
+          recommendations: uniqueRecs
         },
         timeline: timeline,
         coverage: coverage,
