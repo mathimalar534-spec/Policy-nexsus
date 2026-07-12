@@ -16,128 +16,371 @@
   <link rel="stylesheet" href="enterprise.css">
   <link rel="stylesheet" href="night.css">
   <style>
-    /* Premium GRC Report Paper Styling */
+    /* ═══════════════════════════════════════════════════════════════
+       FORMAL OFFICE AUDIT REPORT — Print-Optimized Styling
+       ═══════════════════════════════════════════════════════════════ */
     .reportPaper {
       background: #ffffff !important;
-      color: #0f172a !important;
-      border: 1px solid #e2e8f0 !important;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05) !important;
-      border-radius: 12px;
+      color: #1a1a2e !important;
+      border: 2px solid #1a1a2e !important;
+      box-shadow: none !important;
+      border-radius: 0;
       margin-top: 32px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Times New Roman', 'Georgia', serif;
       position: relative;
       overflow: hidden;
     }
 
     .reportRibbon {
-      height: 6px;
-      background: linear-gradient(90deg, #0ea5e9, #2563eb);
-      width: 100%;
+      height: 0;
+      display: none;
     }
 
     .reportInner {
-      padding: 48px;
+      padding: 56px 64px 48px;
+    }
+
+    /* Classification Banner */
+    .reportClassification {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #b91c1c;
+      border: 2px solid #b91c1c;
+      padding: 6px 0;
+      margin-bottom: 32px;
+      font-family: 'Inter', 'Arial', sans-serif;
+    }
+
+    /* Formal Letterhead */
+    .reportLetterhead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      padding-bottom: 16px;
+      border-bottom: 3px double #1a1a2e;
+    }
+    .reportLetterhead .orgBlock {
+      display: flex;
+      flex-direction: column;
+    }
+    .reportLetterhead .orgName {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #1a1a2e;
+      font-family: 'Inter', 'Arial', sans-serif;
+    }
+    .reportLetterhead .orgDept {
+      font-size: 11px;
+      color: #475569;
+      font-family: 'Inter', 'Arial', sans-serif;
+      margin-top: 2px;
+    }
+    .reportLetterhead .docRef {
+      text-align: right;
+      font-family: 'Inter', 'Arial', sans-serif;
+    }
+    .reportLetterhead .docRef span {
+      display: block;
+      font-size: 10px;
+      color: #64748b;
+      letter-spacing: 0.05em;
+    }
+    .reportLetterhead .docRef strong {
+      display: block;
+      font-size: 12px;
+      color: #1a1a2e;
+      font-weight: 700;
     }
 
     .reportHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .reportTitle {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      font-weight: 900;
-      color: #0f172a;
-      letter-spacing: -0.015em;
-    }
-
-    .reportSubtitle {
-      font-size: 15px;
-      font-weight: 700;
-      color: #475569;
-      margin-top: 4px;
-    }
-
-    .reportScoreWidget {
-      text-align: right;
-      background: #f0f9ff;
-      border: 2px solid #e0f2fe;
-      padding: 12px 20px;
-      border-radius: 8px;
-    }
-
-    .reportScoreLabel {
-      font-size: 10px;
-      font-weight: 800;
-      color: #0369a1;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      text-align: center;
+      margin: 32px 0 12px;
       display: block;
     }
 
-    .reportScoreWidget h2 {
-      font-size: 32px;
-      color: #0ea5e9;
-      font-weight: 900;
-      margin: 2px 0 0 0;
+    .reportTitle {
+      font-family: 'Times New Roman', 'Georgia', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin: 0;
     }
+
+    .reportSubtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: #475569;
+      margin-top: 6px;
+      font-style: italic;
+      font-family: 'Times New Roman', 'Georgia', serif;
+    }
+
+    /* Score widget hidden in formal report — replaced by metadata table */
+    .reportScoreWidget {
+      display: none;
+    }
+    .reportScoreLabel { display: none; }
 
     .reportDivider {
       border: 0;
-      height: 2px;
-      background-color: #cbd5e1;
-      margin: 28px 0;
+      height: 1px;
+      background-color: #1a1a2e;
+      margin: 24px 0;
     }
 
-    .reportGrid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 32px;
-      margin-bottom: 32px;
+    /* Formal Metadata Table */
+    .reportMetaTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      font-family: 'Inter', 'Arial', sans-serif;
+      font-size: 12px;
     }
-    @media(min-width: 768px) {
-      .reportGrid {
-        grid-template-columns: 1fr 2fr;
-      }
+    .reportMetaTable td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      vertical-align: top;
+    }
+    .reportMetaTable .metaLabel {
+      width: 180px;
+      font-weight: 700;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #475569;
+      background-color: #f8fafc;
+    }
+    .reportMetaTable .metaValue {
+      font-weight: 600;
+      color: #1a1a2e;
+      font-size: 12px;
+    }
+    .reportMetaTable .metaValue .riskScore {
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 900;
+      font-family: 'Inter', sans-serif;
+      margin-right: 8px;
+    }
+    .reportMetaTable .metaValue .riskLabel {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .riskLabel.critical { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .riskLabel.warning { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .riskLabel.healthy { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+
+    /* Remove old sidebar/grid layout */
+    .reportGrid { display: none; }
+    .reportSidebar { display: none; }
+    .reportMain { display: none; }
+
+    /* Formal Section Headings */
+    .reportSection {
+      margin-bottom: 28px;
+    }
+    .reportSectionNumber {
+      font-family: 'Inter', 'Arial', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .reportSection h3 {
+      font-family: 'Times New Roman', 'Georgia', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a2e;
+      border-bottom: 1px solid #94a3b8;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      margin-top: 0;
     }
 
-    .reportSidebar {
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-      padding: 24px;
-      border-radius: 8px;
-      height: fit-content;
+    .reportParagraph {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #1a1a2e;
+      font-weight: 400;
+      margin-bottom: 0;
+      text-align: justify;
+      font-family: 'Times New Roman', 'Georgia', serif;
     }
 
-    .metaBlock {
+    /* Findings Table */
+    .reportFindingsTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', 'Arial', sans-serif;
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+    .reportFindingsTable th {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #475569;
+      text-align: left;
+    }
+    .reportFindingsTable td {
+      border: 1px solid #e2e8f0;
+      padding: 10px 12px;
+      vertical-align: top;
+      font-size: 11px;
+      color: #1e293b;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .reportFindingsTable tr:nth-child(even) td {
+      background-color: #fafbfc;
+    }
+    .reportFindingsTable .sevBadge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .sevBadge.critical { background: #fee2e2; color: #991b1b; }
+    .sevBadge.high { background: #fef3c7; color: #92400e; }
+    .sevBadge.medium { background: #fef3c7; color: #b45309; }
+    .sevBadge.low { background: #eff6ff; color: #1e40af; }
+
+    /* Legacy finding items — still used for conflicts detail */
+    .reportFindingsContainer {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 12px;
     }
 
-    .metaItem {
+    .reportFindingItem {
+      border: 1px solid #e2e8f0;
+      background-color: #ffffff;
+      border-radius: 0;
+      padding: 16px 18px;
+      border-left: 4px solid #dc2626;
+    }
+    .reportFindingItem.high {
+      border-left-color: #ea580c;
+      border-color: #e2e8f0;
+      background-color: #ffffff;
+    }
+    .reportFindingItem.medium {
+      border-left-color: #d97706;
+      border-color: #e2e8f0;
+      background-color: #ffffff;
+    }
+    .reportFindingItem.low {
+      border-left-color: #2563eb;
+      border-color: #e2e8f0;
+      background-color: #ffffff;
+    }
+    .reportFindingItem h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 0 0 6px 0;
+      font-family: 'Inter', 'Arial', sans-serif;
+    }
+    .reportFindingItem p {
+      font-size: 12px;
+      color: #334155;
+      line-height: 1.6;
+      margin: 0;
+      font-weight: 500;
+      font-family: 'Inter', 'Arial', sans-serif;
+    }
+
+    .reportList {
+      padding-left: 24px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #1a1a2e;
+      font-weight: 400;
+      margin-bottom: 0;
+      font-family: 'Times New Roman', 'Georgia', serif;
+    }
+    .reportList li {
+      margin-bottom: 8px;
+    }
+    .reportList li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Formal Signature Block */
+    .reportSignatureRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid #1a1a2e;
+    }
+
+    .sigBlock {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
-    .metaItem strong {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .sigLine {
+      height: 1px;
+      background-color: #1a1a2e;
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    .sigBlock span {
+      font-size: 9px;
       color: #475569;
-      font-weight: 800;
-    }
-
-    .metaItem span {
-      font-size: 14px;
+      text-transform: uppercase;
       font-weight: 700;
-      color: #0f172a;
+      letter-spacing: 0.08em;
+      font-family: 'Inter', 'Arial', sans-serif;
     }
 
+    /* Footer Classification */
+    .reportFooter {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid #cbd5e1;
+    }
+    .reportFooter span {
+      font-size: 9px;
+      color: #94a3b8;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Inter', 'Arial', sans-serif;
+    }
+
+    .actionGroup {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    /* Status Badge (used by review schedules, graph, etc.) */
     .statusBadge {
       display: inline-block;
       background-color: #fef3c7;
@@ -178,137 +421,6 @@
       background-color: rgba(185, 28, 28, 0.2) !important;
       color: #fca5a5 !important;
       border-color: rgba(239, 68, 68, 0.4) !important;
-    }
-
-    .reportMain {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .reportSection {
-      margin-bottom: 32px;
-    }
-
-    .reportSection h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: #0f172a;
-      border-bottom: 2px solid #cbd5e1;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
-    }
-
-    .reportParagraph {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #0f172a;
-      font-weight: 600;
-      margin-bottom: 0;
-    }
-
-    .reportFindingsContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .reportFindingItem {
-      border: 2px solid #fca5a5;
-      background-color: #fef2f2;
-      border-radius: 8px;
-      padding: 18px;
-      border-left: 6px solid #ef4444;
-    }
-
-    .reportFindingItem.high {
-      border-color: #fde047;
-      background-color: #fffbeb;
-      border-left-color: #eab308;
-    }
-
-    .reportFindingItem.medium {
-      border-color: #fde047;
-      background-color: #fffbeb;
-      border-left-color: #fbbf24;
-    }
-
-    .reportFindingItem.low {
-      border-color: #bfdbfe;
-      background-color: #eff6ff;
-      border-left-color: #3b82f6;
-    }
-
-    .reportFindingItem h4 {
-      font-size: 15px;
-      font-weight: 800;
-      color: #991b1b;
-      margin: 0 0 6px 0;
-    }
-    .reportFindingItem.high h4, .reportFindingItem.medium h4 {
-      color: #854d0e;
-    }
-    .reportFindingItem.low h4 {
-      color: #1e40af;
-    }
-
-    .reportFindingItem p {
-      font-size: 13px;
-      color: #1e293b;
-      line-height: 1.6;
-      margin: 0;
-      font-weight: 600;
-    }
-
-    .reportList {
-      padding-left: 24px;
-      font-size: 15px;
-      line-height: 1.7;
-      color: #0f172a;
-      font-weight: 600;
-      margin-bottom: 0;
-    }
-    .reportList li {
-      margin-bottom: 10px;
-    }
-    .reportList li:last-child {
-      margin-bottom: 0;
-    }
-
-    .reportSignatureRow {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 2px dashed #cbd5e1;
-    }
-
-    .sigBlock {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .sigLine {
-      height: 1px;
-      background-color: #94a3b8;
-      width: 100%;
-      margin-top: 24px;
-    }
-
-    .sigBlock span {
-      font-size: 9px;
-      color: #64748b;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .actionGroup {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
     }
 
     /* Premium GRC Health Cards Styles */
@@ -1464,71 +1576,116 @@
 
         <!-- Printable Audit Report Section -->
         <section id="auditReportPaper" class="reportPaper" style="display: none;">
-          <!-- Top Accent Ribbon -->
-          <div class="reportRibbon"></div>
-          
           <div class="reportInner">
-            <!-- Report Header -->
+            <!-- Classification Banner -->
+            <div class="reportClassification">INTERNAL — FOR OFFICIAL USE ONLY</div>
+
+            <!-- Formal Letterhead -->
+            <div class="reportLetterhead">
+              <div class="orgBlock">
+                <span class="orgName">Office of Information Security</span>
+                <span class="orgDept">Governance, Risk & Compliance Division</span>
+              </div>
+              <div class="docRef">
+                <span>Document Reference</span>
+                <strong id="reportDocRef">GRC-AUD-2026-001</strong>
+                <span style="margin-top:4px;">Revision 1.0</span>
+              </div>
+            </div>
+
+            <!-- Formal Title Block -->
             <div class="reportHeader">
-              <div>
-                <h1 class="reportTitle">Policy Nexus alignment audit statement</h1>
-                <p class="reportSubtitle">Automated GRC Contradiction & Compliance Analysis</p>
-              </div>
-              <div class="reportScoreWidget">
-                <span class="reportScoreLabel">RISK INDEX</span>
-                <h2 id="reportScoreVal">--/100</h2>
-              </div>
+              <h1 class="reportTitle">Policy Alignment Audit Report</h1>
+              <p class="reportSubtitle">Automated Contradiction & Compliance Analysis Statement</p>
             </div>
-            
+
             <hr class="reportDivider">
-            
-            <!-- Metadata and Summary Grid -->
-            <div class="reportGrid">
-              <!-- Left Sidebar: Audit Details -->
-              <div class="reportSidebar">
-                <div class="metaBlock">
-                  <div class="metaItem">
-                    <strong>Audit Timestamp</strong>
-                    <span id="reportDate">--</span>
-                  </div>
-                  <div class="metaItem">
-                    <strong>Audited Scope</strong>
-                    <span id="reportScope">-- document(s)</span>
-                  </div>
-                  <div class="metaItem">
-                    <strong>Compliance Posture</strong>
-                    <span id="reportComplianceStatus" class="statusBadge">--</span>
-                  </div>
 
-
-                </div>
-              </div>
-              
-              <!-- Right Main Content: Summary -->
-              <div class="reportMain">
-                <div class="reportSection">
-                  <h3>Executive Summary</h3>
-                  <p id="reportSummaryText" class="reportParagraph"></p>
-                </div>
-              </div>
-            </div>
-            
+            <!-- Section 1: Audit Metadata Table -->
             <div class="reportSection">
-              <h3>Key Contradictions & Conflicts Detected</h3>
+              <div class="reportSectionNumber">Section 1</div>
+              <h3>Audit Information</h3>
+              <table class="reportMetaTable">
+                <tr>
+                  <td class="metaLabel">Date of Audit</td>
+                  <td class="metaValue" id="reportDate">--</td>
+                  <td class="metaLabel">Prepared By</td>
+                  <td class="metaValue">Policy Nexus Automated Engine</td>
+                </tr>
+                <tr>
+                  <td class="metaLabel">Audit Scope</td>
+                  <td class="metaValue" id="reportScope">-- document(s)</td>
+                  <td class="metaLabel">Analysis Method</td>
+                  <td class="metaValue">FAISS Vector Similarity + NLP Obligation Parsing</td>
+                </tr>
+                <tr>
+                  <td class="metaLabel">Risk Index Score</td>
+                  <td class="metaValue"><span class="riskScore" id="reportScoreVal">--</span><span class="riskLabel" id="reportRiskLabel">--</span></td>
+                  <td class="metaLabel">Compliance Posture</td>
+                  <td class="metaValue" id="reportComplianceStatus">--</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Section 2: Executive Summary -->
+            <div class="reportSection">
+              <div class="reportSectionNumber">Section 2</div>
+              <h3>Executive Summary</h3>
+              <p id="reportSummaryText" class="reportParagraph"></p>
+            </div>
+
+            <!-- Section 3: Findings Summary Table -->
+            <div class="reportSection">
+              <div class="reportSectionNumber">Section 3</div>
+              <h3>Findings Summary</h3>
+              <table class="reportFindingsTable" id="reportFindingsTable">
+                <thead>
+                  <tr>
+                    <th style="width:30px;">#</th>
+                    <th>Finding</th>
+                    <th style="width:80px;">Type</th>
+                    <th style="width:80px;">Severity</th>
+                    <th>Affected Policies</th>
+                    <th>Remediation</th>
+                  </tr>
+                </thead>
+                <tbody id="reportFindingsTableBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Section 4: Detailed Conflict Analysis -->
+            <div class="reportSection">
+              <div class="reportSectionNumber">Section 4</div>
+              <h3>Detailed Conflict Analysis</h3>
               <div id="reportConflictsList" class="reportFindingsContainer"></div>
             </div>
 
-            
-            <!-- Auditor Signature Block -->
+            <!-- Section 5: Mandatory Remediation Checklist -->
+            <div class="reportSection">
+              <div class="reportSectionNumber">Section 5</div>
+              <h3>Mandatory Remediation Checklist</h3>
+              <ol id="reportRemediationList" class="reportList"></ol>
+            </div>
+
+            <!-- Authorisation & Signature Block -->
             <div class="reportSignatureRow">
               <div class="sigBlock">
                 <div class="sigLine"></div>
-                <span>GRC Compliance Officer Signature</span>
+                <span>GRC Compliance Officer</span>
               </div>
               <div class="sigBlock">
                 <div class="sigLine"></div>
-                <span>Date of Validation</span>
+                <span>Chief Information Security Officer</span>
               </div>
+              <div class="sigBlock">
+                <div class="sigLine"></div>
+                <span>Date of Authorisation</span>
+              </div>
+            </div>
+
+            <!-- Classification Footer -->
+            <div class="reportFooter">
+              <span>This document is generated by Policy Nexus GRC Engine · Confidential · Page 1 of 1</span>
             </div>
           </div>
         </section>
@@ -2686,25 +2843,72 @@
       renderObligationsDB();
       renderReviewGrid(r);
       
-      // Populate Audit Report Document Paper
-
+      // ═══ Populate Formal Audit Report Document ═══
+      
+      // Document reference with date-based ID
+      const auditDate = new Date();
+      const refNum = `GRC-AUD-${auditDate.getFullYear()}-${String(auditDate.getMonth()+1).padStart(2,'0')}${String(auditDate.getDate()).padStart(2,'0')}`;
+      setTxt('reportDocRef', refNum);
+      
+      // Formal date formatting
+      const formalDate = auditDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) + ' at ' + auditDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      setTxt('reportDate', formalDate);
+      
+      // Score and risk classification
       setTxt('reportScoreVal', `${risk}/100`);
-      setTxt('reportDate', new Date().toLocaleString());
-      setTxt('reportScope', `${documents.length} document(s) evaluated`);
-      setTxt('reportComplianceStatus', el('scoreLabel') ? el('scoreLabel').textContent : '');
+      const riskLabelEl = el('reportRiskLabel');
+      if (riskLabelEl) {
+        if (risk <= 45) {
+          riskLabelEl.textContent = 'CRITICAL RISK';
+          riskLabelEl.className = 'riskLabel critical';
+        } else if (risk <= 75) {
+          riskLabelEl.textContent = 'ELEVATED RISK';
+          riskLabelEl.className = 'riskLabel warning';
+        } else {
+          riskLabelEl.textContent = 'ACCEPTABLE';
+          riskLabelEl.className = 'riskLabel healthy';
+        }
+      }
+      
+      setTxt('reportScope', `${documents.length} policy document(s) within audit perimeter`);
+      setTxt('reportComplianceStatus', el('scoreLabel') ? el('scoreLabel').textContent : '--');
       setTxt('reportSummaryText', r.executive.summary);
-      setHtml('reportConflictsList', r.findings.filter(f => f.kind === 'CONFLICT').map(f => {
+      
+      // Section 3: Findings Summary Table
+      const findingsTableBody = el('reportFindingsTableBody');
+      if (findingsTableBody) {
+        findingsTableBody.innerHTML = r.findings.map((f, idx) => `
+          <tr>
+            <td style="text-align:center;font-weight:700;">${idx + 1}</td>
+            <td>${safe(f.title)}</td>
+            <td><span class="sevBadge ${f.kind === 'CONFLICT' ? 'critical' : 'medium'}">${safe(f.kind)}</span></td>
+            <td><span class="sevBadge ${f.severity}">${f.severity.toUpperCase()}</span></td>
+            <td>${f.policies ? f.policies.map(safe).join(', ') : '—'}</td>
+            <td style="font-size:10px;">${safe(f.recommendation || '—')}</td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center;color:#94a3b8;">No findings identified.</td></tr>';
+      }
+      
+      // Section 4: Detailed Conflict Analysis
+      setHtml('reportConflictsList', r.findings.filter(f => f.kind === 'CONFLICT').map((f, idx) => {
         const evidenceHtml = (f.policies && f.policies.length >= 2)
           ? renderEvidence(f.evidence, f.policies)
           : `<div class="evidence" style="white-space:pre-line;">${safe(f.evidence)}</div>`;
         return `
           <div class="reportFindingItem ${f.severity}">
-            <h4 style="margin-bottom: 8px;">${safe(f.title)} (${f.severity.toUpperCase()})</h4>
+            <h4>4.${idx + 1} — ${safe(f.title)} <span class="sevBadge ${f.severity}" style="margin-left:8px;">${f.severity.toUpperCase()}</span></h4>
+            <p style="margin-bottom:8px;"><strong>Affected Policies:</strong> ${f.policies ? f.policies.map(safe).join(', ') : '—'}</p>
             ${evidenceHtml}
             <p style="margin-top: 8px;"><strong>Remediation Strategy:</strong> ${safe(f.recommendation)}</p>
           </div>
         `;
-      }).join('') || '<p class="empty">No contradictions or conflicts identified in current scope.</p>');
+      }).join('') || '<p class="empty">No contradictions or conflicts identified in current audit scope.</p>');
+      
+      // Section 5: Mandatory Remediation Checklist
+      const remList = el('reportRemediationList');
+      if (remList) {
+        remList.innerHTML = r.executive.recommendations.map(x => `<li>${safe(x)}</li>`).join('') || '<li>No mandatory remediations required at this time.</li>';
+      }
 
       
       const reportPaper = el('auditReportPaper');
