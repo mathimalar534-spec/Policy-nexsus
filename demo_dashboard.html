@@ -1931,14 +1931,24 @@
         }
       }
       
-      // Merge multi-policy conflicts and redundancies on the same topic
+      // Group findings of the same kind and topic, and filter out absolute duplicates
       const groupedFindings = [];
       const conflictGroups = new Map();
+      const seenSignatures = new Set();
+      
       findings.forEach(f => {
+        const polKey = (f.policies || []).slice().sort().join(',');
+        const sig = `${f.kind}:${f.title}:${polKey}:${f.evidence}`;
+        if (seenSignatures.has(sig)) {
+          return;
+        }
+        seenSignatures.add(sig);
+        
         if (f.kind === 'CONFLICT' || f.kind === 'REDUNDANCY') {
           const topicMatch = f.title.match(/regarding\s+(\w+)/i);
           const topic = topicMatch ? topicMatch[1] : 'general';
           const groupKey = `${f.kind}:${topic}`;
+          
           if (!conflictGroups.has(groupKey)) {
             conflictGroups.set(groupKey, []);
           }
@@ -1947,6 +1957,7 @@
           groupedFindings.push(f);
         }
       });
+      
       conflictGroups.forEach((group, key) => {
         if (group.length === 1) {
           groupedFindings.push(group[0]);
@@ -1954,29 +1965,28 @@
           const first = group[0];
           const allPolicies = new Set();
           const uniqueEvidenceLines = new Set();
+          
           group.forEach(f => {
-            if (f.policies) f.policies.forEach(p => allPolicies.add(p));
+            f.policies.forEach(p => allPolicies.add(p));
             const lines = f.evidence.split(/\s+vs\s+|\n/).map(l => l.trim()).filter(Boolean);
             lines.forEach(line => uniqueEvidenceLines.add(line));
           });
+          
+          const mergedEvidence = Array.from(uniqueEvidenceLines).join('\n');
+          
           groupedFindings.push({
             title: first.title,
             kind: first.kind,
             severity: first.severity,
             policies: Array.from(allPolicies),
-            evidence: Array.from(uniqueEvidenceLines).join('\n'),
+            evidence: mergedEvidence,
             scopeAnalysis: first.scopeAnalysis,
             recommendation: first.recommendation
           });
         }
       });
+      
       findings = groupedFindings;
-
-      // Recalculate severity counts based on grouped findings
-      severityCounts.critical = findings.filter(f => f.severity === 'critical').length;
-      severityCounts.high = findings.filter(f => f.severity === 'high').length;
-      severityCounts.medium = findings.filter(f => f.severity === 'medium').length;
-      severityCounts.low = findings.filter(f => f.severity === 'low').length;
       
       const totalScore = Math.max(0, 100 - findings.reduce((sum, f) => sum + ({ critical: 25, high: 15, medium: 7, low: 3 }[f.severity] || 0), 0));
       
