@@ -19,7 +19,7 @@ import {
 } from './types';
 
 // Palette Colors
-const COLORS = ['#2563EB', '#22C55E', '#F59E0B', '#DC2626', '#8B5CF6', '#EC4899'];
+const COLORS = ['#0B132B', '#1C2541', '#3A506B', '#06D6A0', '#FFD166', '#EF476F'];
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
