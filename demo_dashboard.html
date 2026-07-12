@@ -982,8 +982,8 @@
       white-space: nowrap;
     }
     .cardBody {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
       border-top: 1px dashed var(--border);
       padding-top: 10px;
@@ -1715,19 +1715,20 @@
         let lastReviewed = "2024-01-01";
         let status = "active";
         
-        const authorMatch = text.match(/author:\s*([^\r\n]+)/i);
-        if (authorMatch) author = authorMatch[1].trim().replace(/\*\*/g, '');
+        const plainText = text.replace(/\*/g, '');
+        const authorMatch = plainText.match(/author:\s*([^\r\n]+)/i);
+        if (authorMatch) author = authorMatch[1].trim();
         
-        const deptMatch = text.match(/department:\s*([^\r\n]+)/i);
-        if (deptMatch) dept = deptMatch[1].trim().replace(/\*\*/g, '');
+        const deptMatch = plainText.match(/department:\s*([^\r\n]+)/i);
+        if (deptMatch) dept = deptMatch[1].trim();
         
-        const verMatch = text.match(/version:\s*([^\r\n]+)/i);
-        if (verMatch) version = verMatch[1].trim().replace(/\*\*/g, '');
+        const verMatch = plainText.match(/version:\s*([^\r\n]+)/i);
+        if (verMatch) version = verMatch[1].trim();
         
-        const statusMatch = text.match(/status:\s*([^\r\n]+)/i);
-        if (statusMatch) status = statusMatch[1].trim().replace(/\*\*/g, '').toLowerCase();
+        const statusMatch = plainText.match(/status:\s*([^\r\n]+)/i);
+        if (statusMatch) status = statusMatch[1].trim().toLowerCase();
         
-        const dateMatch = text.match(/last\s+reviewed:\s*([\d\-]+)/i);
+        const dateMatch = plainText.match(/last\s+reviewed:\s*([\d\-]+)/i);
         let reviewStatus = "missing";
         
         if (dateMatch) {
@@ -1996,7 +1997,7 @@
       const policyHealth = docs.map(doc => {
         const docFindings = findings.filter(f => f.policies.includes(doc.name)).length;
         const docScore = Math.max(0, 100 - (docFindings * 10));
-        const lastRevMatch = doc.text.match(/last\s+reviewed:\s*([\d\-]+)/i);
+        const lastRevMatch = doc.text.replace(/\*/g, '').match(/last\s+reviewed:\s*([\d\-]+)/i);
         return {
           policy: doc.name,
           score: docScore,
@@ -2878,10 +2879,6 @@
               <div class="cardField">
                 <small>Last Reviewed</small>
                 <span>${safe(formatDate(x.date))}</span>
-              </div>
-              <div class="cardField">
-                <small>Next Review Date</small>
-                <span>${safe(formatDate(nextStr))}</span>
               </div>
             </div>
           </button>
