@@ -1453,7 +1453,7 @@
           </div>
           <div class="border-left-slate pl-6 space-y-4">
             <p class="eyebrow">COMPLIANCE INSTRUCTION</p>
-            <h3>Mandatory Remediation Checklist</h3>
+            <h3>Remediation Steps</h3>
             <ul id="recommendations" class="list-bullet"></ul>
             <div class="actionGroup">
               <button id="download" class="button primary">Download JSON Findings</button>
@@ -1518,10 +1518,6 @@
               <div id="reportConflictsList" class="reportFindingsContainer"></div>
             </div>
 
-            <div class="reportSection">
-              <h3>Mandatory Remediation Checklist</h3>
-              <ol id="reportRemediationList" class="reportList"></ol>
-            </div>
             
             <!-- Auditor Signature Block -->
             <div class="reportSignatureRow">
@@ -1844,6 +1840,8 @@
       const comparisons = [];
       const graphEdges = [];
       
+      const rawFindings = [];
+      
       for (let i = 0; i < all_obligations.length; i++) {
         for (let j = i + 1; j < all_obligations.length; j++) {
           const obA = all_obligations[i];
@@ -1865,17 +1863,16 @@
             if ((prohibitedA && (requiredB || lowB.includes("recommended") || lowB.includes("should"))) || 
                 (prohibitedB && (requiredA || lowA.includes("recommended") || lowA.includes("should")))) {
               
-              const explanation = `${obA.policy} : ${obA.sentence} vs ${obB.policy} : ${obB.sentence}`;
-              findings.push({
+              rawFindings.push({
+                groupKey: `CONFLICT::${obA.topic}`,
                 title: `Contradiction regarding ${obA.topic}`,
                 kind: "CONFLICT",
                 severity: "critical",
                 policies: [obA.policy, obB.policy],
-                evidence: explanation,
+                evidenceParts: [{ policy: obA.policy, sentence: obA.sentence }, { policy: obB.policy, sentence: obB.sentence }],
                 scopeAnalysis: `Direct functional contradiction on ${obA.topic} rules between different divisions.`,
                 recommendation: `Align standard directives for ${obA.topic} to maintain operational harmony.`
               });
-              severityCounts.critical++;
               
               comparisons.push({
                 policyA: obA.policy,
@@ -1895,7 +1892,7 @@
                 label: `${obA.topic} Conflict`,
                 confidence: 0.92,
                 severity: "critical",
-                reason: explanation,
+                reason: `${obA.policy} : ${obA.sentence} vs ${obB.policy} : ${obB.sentence}`,
                 recommendation: `Align standard directives for ${obA.topic} to maintain operational harmony.`
               });
               
@@ -1904,17 +1901,16 @@
               const wordsB = lowB.split(/\s+/);
               const intersect = wordsA.filter(w => wordsB.includes(w));
               if (intersect.length >= 4) {
-                const explanation = `${obA.policy} : ${obA.sentence} vs ${obB.policy} : ${obB.sentence}`;
-                findings.push({
+                rawFindings.push({
+                  groupKey: `REDUNDANCY::${obA.topic}`,
                   title: `Duplicate control regarding ${obA.topic}`,
                   kind: "REDUNDANCY",
                   severity: "medium",
                   policies: [obA.policy, obB.policy],
-                  evidence: explanation,
+                  evidenceParts: [{ policy: obA.policy, sentence: obA.sentence }, { policy: obB.policy, sentence: obB.sentence }],
                   scopeAnalysis: "Duplicate compliance instructions mapping to the same controls framework.",
                   recommendation: `Consolidate statements to simplify governance audits.`
                 });
-                severityCounts.medium++;
                 
                 comparisons.push({
                   policyA: obA.policy,
@@ -1931,62 +1927,49 @@
         }
       }
       
-      // Group findings of the same kind and topic, and filter out absolute duplicates
-      const groupedFindings = [];
-      const conflictGroups = new Map();
-      const seenSignatures = new Set();
-      
-      findings.forEach(f => {
-        const polKey = (f.policies || []).slice().sort().join(',');
-        const sig = `${f.kind}:${f.title}:${polKey}:${f.evidence}`;
-        if (seenSignatures.has(sig)) {
-          return;
+      // Group raw findings by topic+kind to merge duplicates into single widgets
+      const findingsGroupMap = new Map();
+      rawFindings.forEach(rf => {
+        if (!findingsGroupMap.has(rf.groupKey)) {
+          findingsGroupMap.set(rf.groupKey, {
+            title: rf.title,
+            kind: rf.kind,
+            severity: rf.severity,
+            policies: new Set(),
+            evidenceParts: new Map(), // policy -> sentence (deduplicated)
+            scopeAnalysis: rf.scopeAnalysis,
+            recommendation: rf.recommendation
+          });
         }
-        seenSignatures.add(sig);
+        const group = findingsGroupMap.get(rf.groupKey);
+        rf.policies.forEach(p => group.policies.add(p));
+        rf.evidenceParts.forEach(ep => {
+          group.evidenceParts.set(`${ep.policy}::${ep.sentence}`, ep);
+        });
+      });
+      
+      findingsGroupMap.forEach((group) => {
+        const policiesArr = Array.from(group.policies);
+        const evidencePartsArr = Array.from(group.evidenceParts.values());
+        // Build multi-line evidence string
+        const evidenceLines = evidencePartsArr.map(ep => `${ep.policy} : "${ep.sentence}"`);
+        const evidence = evidenceLines.join('\n');
         
-        if (f.kind === 'CONFLICT' || f.kind === 'REDUNDANCY') {
-          const topicMatch = f.title.match(/regarding\s+(\w+)/i);
-          const topic = topicMatch ? topicMatch[1] : 'general';
-          const groupKey = `${f.kind}:${topic}`;
-          
-          if (!conflictGroups.has(groupKey)) {
-            conflictGroups.set(groupKey, []);
-          }
-          conflictGroups.get(groupKey).push(f);
-        } else {
-          groupedFindings.push(f);
-        }
+        findings.push({
+          title: group.title,
+          kind: group.kind,
+          severity: group.severity,
+          policies: policiesArr,
+          evidence: evidence,
+          scopeAnalysis: group.scopeAnalysis,
+          recommendation: group.recommendation
+        });
+        
+        if (group.severity === 'critical') severityCounts.critical++;
+        else if (group.severity === 'high') severityCounts.high++;
+        else if (group.severity === 'medium') severityCounts.medium++;
+        else severityCounts.low++;
       });
-      
-      conflictGroups.forEach((group, key) => {
-        if (group.length === 1) {
-          groupedFindings.push(group[0]);
-        } else {
-          const first = group[0];
-          const allPolicies = new Set();
-          const uniqueEvidenceLines = new Set();
-          
-          group.forEach(f => {
-            f.policies.forEach(p => allPolicies.add(p));
-            const lines = f.evidence.split(/\s+vs\s+|\n/).map(l => l.trim()).filter(Boolean);
-            lines.forEach(line => uniqueEvidenceLines.add(line));
-          });
-          
-          const mergedEvidence = Array.from(uniqueEvidenceLines).join('\n');
-          
-          groupedFindings.push({
-            title: first.title,
-            kind: first.kind,
-            severity: first.severity,
-            policies: Array.from(allPolicies),
-            evidence: mergedEvidence,
-            scopeAnalysis: first.scopeAnalysis,
-            recommendation: first.recommendation
-          });
-        }
-      });
-      
-      findings = groupedFindings;
       
       const totalScore = Math.max(0, 100 - findings.reduce((sum, f) => sum + ({ critical: 25, high: 15, medium: 7, low: 3 }[f.severity] || 0), 0));
       
@@ -2722,7 +2705,7 @@
           </div>
         `;
       }).join('') || '<p class="empty">No contradictions or conflicts identified in current scope.</p>');
-      setHtml('reportRemediationList', r.executive.recommendations.map(x => `<li>${safe(x)}</li>`).join(''));
+
       
       const reportPaper = el('auditReportPaper');
       if (reportPaper) reportPaper.style.display = 'block';
@@ -2782,103 +2765,38 @@
     function renderEvidence(evidence, policies) {
       if (!evidence) return '';
       
-      let parts = evidence.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      // Evidence is now pre-formatted as newline-separated "policy : sentence" lines
+      const lines = evidence.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       
-      if (parts.length === 1 && policies && policies.length >= 2) {
-        const text = parts[0];
+      if (lines.length > 1) {
+        const linesDivs = lines.map(line => `<div style="margin-top: 4px;">${safe(line)}</div>`).join('');
+        return `
+          <div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">
+            ${linesDivs}
+          </div>
+        `;
+      }
+      
+      // Fallback: single-line legacy evidence with 2-policy split
+      if (lines.length === 1 && policies && policies.length >= 2) {
+        const text = lines[0];
         const splitKeywords = ["' vs '", ' vs ', ', while ', '; whereas ', ', but ', ', whereas '];
         for (const kw of splitKeywords) {
           if (text.includes(kw)) {
             const index = text.indexOf(kw);
             let part1 = text.substring(0, index).trim();
             let part2 = text.substring(index + kw.length).trim();
-            if (part1.startsWith("'") && part1.endsWith("'")) {
-              part1 = part1.substring(1, part1.length - 1).trim();
-            }
-            if (part2.startsWith("'") && part2.endsWith("'")) {
-              part2 = part2.substring(1, part2.length - 1).trim();
-            }
-            parts = [part1, part2];
-            break;
-          }
-        }
-        
-        if (parts.length === 1) {
-          const cleanPols = policies.map(p => p.replace(/\.[a-zA-Z0-9]+$/, '').trim());
-          if (cleanPols.length >= 2) {
-            const firstPolIndex = text.indexOf(cleanPols[0]);
-            const secondPolIndex = text.indexOf(cleanPols[1]);
-            if (firstPolIndex !== -1 && secondPolIndex !== -1) {
-              if (firstPolIndex < secondPolIndex) {
-                parts = [
-                  text.substring(0, secondPolIndex).trim().replace(/,\s*$/, '').replace(/;\s*$/, ''),
-                  text.substring(secondPolIndex).trim()
-                ];
-              } else {
-                parts = [
-                  text.substring(0, firstPolIndex).trim().replace(/,\s*$/, '').replace(/;\s*$/, ''),
-                  text.substring(firstPolIndex).trim()
-                ];
-              }
-            }
+            return `
+              <div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">
+                <div>${safe(part1)}</div>
+                <div style="margin-top: 4px;">${safe(part2)}</div>
+              </div>
+            `;
           }
         }
       }
       
-      const formatPart = (txt, polFile) => {
-        let formatted = txt.trim();
-        
-        if (formatted.startsWith("'") || formatted.startsWith('"')) {
-          formatted = formatted.slice(1);
-        }
-        if (formatted.endsWith("'") || formatted.endsWith('"')) {
-          formatted = formatted.slice(0, -1);
-        }
-        formatted = formatted.trim();
-
-        const cleanName = polFile.replace(/\.[a-zA-Z0-9]+$/, '').trim();
-        const mdReg = new RegExp(cleanName + '\\.md\\s*[:\\-]?\\s*', 'gi');
-        formatted = formatted.replace(mdReg, '');
-        const nameReg = new RegExp(cleanName + '\\s*[:\\-]?\\s*', 'gi');
-        formatted = formatted.replace(nameReg, '');
-        
-        formatted = formatted.trim();
-        if (formatted.startsWith("'") || formatted.startsWith('"')) {
-          formatted = formatted.slice(1);
-        }
-        if (formatted.endsWith("'") || formatted.endsWith('"')) {
-          formatted = formatted.slice(0, -1);
-        }
-        formatted = formatted.trim();
-
-        if (formatted.length > 0) {
-          formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
-        }
-        formatted = formatted.replace(/[.,;]+$/, '').trim();
-        return `${polFile} : "${formatted}"`;
-      };
-
-      if (parts.length >= 2 && policies && policies.length >= 2) {
-        const partA = formatPart(parts[0], policies[0]);
-        const partB = formatPart(parts[1], policies[1]);
-        return `
-          <div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">
-            <div>${safe(partA)}</div>
-            <div style="margin-top: 4px;">${safe(partB)}</div>
-          </div>
-        `;
-      }
-      
-      let formattedEvidence = evidence;
-      if (policies && policies.length >= 2) {
-        policies.forEach(polFile => {
-          const cleanName = polFile.replace(/\.[a-zA-Z0-9]+$/, '').trim();
-          const nameReg = new RegExp(cleanName + '\\b', 'gi');
-          formattedEvidence = formattedEvidence.replace(nameReg, polFile + ' :');
-        });
-        formattedEvidence = formattedEvidence.replace(/:\s*:/g, ':').trim();
-      }
-      return `<div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">${safe(formattedEvidence)}</div>`;
+      return `<div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">${safe(evidence)}</div>`;
     }
 
     window.renderFindingCard = f => {
@@ -2889,6 +2807,10 @@
         
       const detailHtml = f.scopeAnalysis 
         ? `<div class="detail"><b>Scope analysis</b><span>${safe(f.scopeAnalysis)}</span></div>`
+        : '';
+        
+      const recHtml = f.recommendation
+        ? `<p class="rec-action"><b>Recommended action:</b> ${safe(f.recommendation)}</p>`
         : '';
         
       const polText = f.policies ? f.policies.map(safe).join(' · ') : '';
@@ -2903,6 +2825,7 @@
           ${polHeader}
           ${evidenceHtml}
           ${detailHtml}
+          ${recHtml}
         </article>
       `;
     };
