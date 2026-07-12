@@ -785,65 +785,33 @@
         size: A4 portrait;
         margin: 20mm;
       }
-      html, body {
-        background: #ffffff !important;
-        color: #000000 !important;
+      html, body, .viewport, .content {
         overflow: visible !important;
         height: auto !important;
+        min-height: 0 !important;
+        position: static !important;
+        scrollbar-gutter: auto !important;
       }
-      /* Hide all website elements */
-      .sidebar, header, .hero, .flex-between-metrics, #healthCards, #findings, #comparisons, #graph, #timeline, .grid-2, .tableWrapper, #toasts, .complianceBoard, .actionRow, .button, .pasteBox, .fileListContainer, .triggerRow, .panel:not(#auditReportPaper), .actionGroup {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .sidebar, header, .hero, .flex-between-metrics, #healthCards, #findings, #comparisons, #graph, #timeline, .grid-2, table, .tableWrapper, #toasts, .complianceBoard, h2, .eyebrow, p.intro, .actionRow, .button, .pasteBox, .fileListContainer, .triggerRow, .panel:not(#auditReportPaper), .actionGroup {
         display: none !important;
       }
-      
-      /* Make sure dashboard container doesn't hide our report */
-      .viewport, .content, main {
-        display: block !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-
       #auditReportPaper {
         display: block !important;
-        width: 100% !important;
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
         margin: 0 !important;
+        width: 100% !important;
         position: static !important;
       }
-      
-      /* Print typography & layouts */
-      .printHeader { text-align: center; margin-bottom: 20px; }
-      .printHeader h2 { font-size: 20px; margin: 0 0 5px 0; font-weight: bold; text-transform: uppercase; }
-      .printHeader h1 { font-size: 26px; margin: 0; font-weight: bold; }
-      
-      .printSection { margin-bottom: 25px; }
-      .printSection h3 { 
-        font-size: 18px; 
-        border-bottom: 2px solid #000; 
-        padding-bottom: 5px; 
-        margin-bottom: 15px; 
-        page-break-after: avoid; 
-        font-weight: bold;
+      .reportSection, .reportFindingItem, .reportSignatureRow, .reportGrid {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
-      
-      .printMetaList { list-style: none; padding: 0; margin: 0; }
-      .printMetaList li { margin-bottom: 8px; font-size: 14pt; }
-      
-      .printParagraph { font-size: 12pt; line-height: 1.5; }
-      
-      .printTable { width: 100%; border-collapse: collapse; margin-bottom: 20px; page-break-inside: auto; }
-      .printTable th, .printTable td { border: 1px solid #000; padding: 10px; text-align: left; font-size: 11pt; }
-      .printTable thead { display: table-header-group; font-weight: bold; }
-      .printTable tr { page-break-inside: avoid; page-break-after: auto; }
-      
-      .printRemediation { padding-left: 20px; font-size: 12pt; }
-      .printRemediation li { margin-bottom: 10px; line-height: 1.5; }
-      
-      .printFooter { margin-top: 50px; text-align: center; font-size: 10pt; color: #333; border-top: 1px solid #000; padding-top: 15px; }
-      .printFooter p { margin: 4px 0; }
-      .pageNumber { text-align: right; }
     }
     /* Slide-out Inspector Drawer */
     .drawer {
@@ -971,6 +939,21 @@
       flex-direction: column;
       gap: 12px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .reviewStatusCard:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-color: #cbd5e1;
+    }
+    .reviewStatusCard.selected {
+      border-color: #0ea5e9;
+      background-color: #f0f9ff;
+    }
+    body.dark .reviewStatusCard.selected {
+      border-color: #0284c7;
+      background-color: #0c1a30;
     }
     .cardHeader {
       display: flex;
@@ -1496,72 +1479,81 @@
 
         <!-- Printable Audit Report Section -->
         <section id="auditReportPaper" class="reportPaper" style="display: none;">
-          <div class="printHeader">
-            <h2>POLICY NEXUS</h2>
-            <h1>Policy Alignment Audit Report</h1>
-          </div>
+          <!-- Top Accent Ribbon -->
+          <div class="reportRibbon"></div>
           
-          <div class="printSection">
-            <h3>Audit Information</h3>
-            <ul class="printMetaList">
-              <li><strong>Audit Date & Time:</strong> <span id="printDate"></span></li>
-              <li><strong>Audit ID:</strong> <span id="printAuditId"></span></li>
-              <li><strong>Policies Evaluated:</strong> <span id="printPoliciesEvaluated"></span></li>
-              <li><strong>Controls Mapped:</strong> <span id="printControlsMapped"></span></li>
-              <li><strong>Compliance Status:</strong> <span id="printComplianceStatus"></span></li>
-              <li><strong>Risk Index:</strong> <span id="printRiskIndex"></span></li>
-            </ul>
-          </div>
-          
-          <div class="printSection">
-            <h3>Executive Summary</h3>
-            <p id="printExecutiveSummary" class="printParagraph"></p>
-          </div>
-          
-          <div class="printSection">
-            <h3>Compliance Findings</h3>
-            <table class="printTable">
-              <thead>
-                <tr>
-                  <th>Policies Evaluated</th>
-                  <th>Controls Mapped</th>
-                  <th>Contradictions</th>
-                  <th>Redundancies</th>
-                  <th>Compliance Status</th>
-                </tr>
-              </thead>
-              <tbody id="printFindingsTbody">
-              </tbody>
-            </table>
-          </div>
-          
-          <div class="printSection">
-            <h3>Remediation Steps</h3>
-            <ol id="printRemediationList" class="printRemediation"></ol>
-          </div>
-          
-          <div class="printFooter">
-            <p>Generated by Policy Nexus</p>
-            <p>Automated GRC Contradiction & Compliance Analysis</p>
-            <p>Report Generation Timestamp: <span id="printFooterTime"></span></p>
-            <p>Confidential – Internal Use Only</p>
+          <div class="reportInner">
+            <!-- Report Header -->
+            <div class="reportHeader">
+              <div>
+                <h1 class="reportTitle">Policy Nexus alignment audit statement</h1>
+                <p class="reportSubtitle">Automated GRC Contradiction & Compliance Analysis</p>
+              </div>
+              <div class="reportScoreWidget">
+                <span class="reportScoreLabel">RISK INDEX</span>
+                <h2 id="reportScoreVal">--/100</h2>
+              </div>
+            </div>
+            
+            <hr class="reportDivider">
+            
+            <!-- Metadata and Summary Grid -->
+            <div class="reportGrid">
+              <!-- Left Sidebar: Audit Details -->
+              <div class="reportSidebar">
+                <div class="metaBlock">
+                  <div class="metaItem">
+                    <strong>Audit Timestamp</strong>
+                    <span id="reportDate">--</span>
+                  </div>
+                  <div class="metaItem">
+                    <strong>Audited Scope</strong>
+                    <span id="reportScope">-- document(s)</span>
+                  </div>
+                  <div class="metaItem">
+                    <strong>Compliance Posture</strong>
+                    <span id="reportComplianceStatus" class="statusBadge">--</span>
+                  </div>
+
+
+                </div>
+              </div>
+              
+              <!-- Right Main Content: Summary -->
+              <div class="reportMain">
+                <div class="reportSection">
+                  <h3>Executive Summary</h3>
+                  <p id="reportSummaryText" class="reportParagraph"></p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="reportSection">
+              <h3>Key Contradictions & Conflicts Detected</h3>
+              <div id="reportConflictsList" class="reportFindingsContainer"></div>
+            </div>
+
+            
+            <!-- Auditor Signature Block -->
+            <div class="reportSignatureRow">
+              <div class="sigBlock">
+                <div class="sigLine"></div>
+                <span>GRC Compliance Officer Signature</span>
+              </div>
+              <div class="sigBlock">
+                <div class="sigLine"></div>
+                <span>Date of Validation</span>
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- Review Schedules Timeline -->
+        <!-- Consolidated Review Schedules & Policy Health -->
         <section class="panel">
-          <p class="eyebrow">REVIEW SCHEDULES</p>
-          <h2>Policy review status</h2>
-          <p class="mb-4">Verification dates and currency statuses for audited records.</p>
+          <p class="eyebrow">POLICY REVIEW & HEALTH STATUS</p>
+          <h2>Individual policy health and review status</h2>
+          <p class="mb-4">Verification dates and health scores. Click cards to filter the identified findings list below.</p>
           <div id="reviewGrid" class="reviewStatusGrid"></div>
-        </section>
-
-        <!-- Dynamic Policy Health Cards -->
-        <section class="panel">
-          <p class="eyebrow">HEALTH SCORES</p>
-          <h2>Individual policy health</h2>
-          <p class="mb-4">Click cards to filter the identified findings list below.</p>
-          <div id="healthCards" class="healthCardsGrid"></div>
         </section>
 
         <!-- Dynamic Findings Candidates List -->
@@ -2676,7 +2668,7 @@
           }).join('') 
         : '<p class="empty">Add two or more policies to see comparison decisions.</p>');
         
-      renderHealth();
+      renderReviewGrid(r);
       renderGraph();
       renderFindings();
       
@@ -2702,37 +2694,24 @@
       renderReviewGrid(r);
       
       // Populate Audit Report Document Paper
-      const reportId = 'AUDIT-' + Math.random().toString(36).substring(2, 9).toUpperCase();
-      const reportTimestamp = new Date().toLocaleString();
-      setTxt('printDate', reportTimestamp);
-      setTxt('printFooterTime', reportTimestamp);
-      setTxt('printAuditId', reportId);
-      setTxt('printPoliciesEvaluated', r.policyHealth.length.toString());
-      setTxt('printControlsMapped', r.obligations.length.toString());
-      setTxt('printComplianceStatus', el('scoreLabel') ? el('scoreLabel').textContent : '');
-      setTxt('printRiskIndex', `${risk}/100`);
-      setTxt('printExecutiveSummary', r.executive.summary);
-      
-      let tbodyHtml = '';
-      r.policyHealth.forEach(ph => {
-        const obligationsCount = r.obligations.filter(o => o.policy === ph.policy).length;
-        const contradictions = r.findings.filter(f => f.kind === 'CONFLICT' && f.policies.includes(ph.policy)).length;
-        const redundancies = r.findings.filter(f => f.kind === 'REDUNDANCY' && f.policies.includes(ph.policy)).length;
-        let status = 'Good';
-        if (contradictions > 0) status = 'Needs Review';
-        if (contradictions > 2) status = 'Critical';
-        tbodyHtml += `
-          <tr>
-            <td>${safe(ph.policy)}</td>
-            <td>${obligationsCount}</td>
-            <td>${contradictions}</td>
-            <td>${redundancies}</td>
-            <td>${status}</td>
-          </tr>
+
+      setTxt('reportScoreVal', `${risk}/100`);
+      setTxt('reportDate', new Date().toLocaleString());
+      setTxt('reportScope', `${documents.length} document(s) evaluated`);
+      setTxt('reportComplianceStatus', el('scoreLabel') ? el('scoreLabel').textContent : '');
+      setTxt('reportSummaryText', r.executive.summary);
+      setHtml('reportConflictsList', r.findings.filter(f => f.kind === 'CONFLICT').map(f => {
+        const evidenceHtml = (f.policies && f.policies.length >= 2)
+          ? renderEvidence(f.evidence, f.policies)
+          : `<div class="evidence" style="white-space:pre-line;">${safe(f.evidence)}</div>`;
+        return `
+          <div class="reportFindingItem ${f.severity}">
+            <h4 style="margin-bottom: 8px;">${safe(f.title)} (${f.severity.toUpperCase()})</h4>
+            ${evidenceHtml}
+            <p style="margin-top: 8px;"><strong>Remediation Strategy:</strong> ${safe(f.recommendation)}</p>
+          </div>
         `;
-      });
-      setHtml('printFindingsTbody', tbodyHtml);
-      setHtml('printRemediationList', r.executive.recommendations.map(x => `<li>${safe(x)}</li>`).join(''));
+      }).join('') || '<p class="empty">No contradictions or conflicts identified in current scope.</p>');
 
       
       const reportPaper = el('auditReportPaper');
@@ -2754,39 +2733,11 @@
       }
     }
 
-    function renderHealth() {
-      const formatDate = (dateStr) => {
-        if (!dateStr || dateStr === "None") return "None";
-        const parts = dateStr.split('-');
-        if (parts.length === 3) {
-          const d = new Date(parts[0], parts[1] - 1, parts[2]);
-          if (!isNaN(d.getTime())) {
-            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-          }
-        }
-        return dateStr;
-      };
-      
-      el('healthCards').innerHTML = lastResult.policyHealth.map(x => {
-        const status = x.score >= 85 ? 'good' : x.score >= 70 ? 'warning' : 'danger';
-        return `
-          <button class="health ${activePolicy === x.policy ? 'selected' : ''}" onclick="filterPolicy('${x.policy.replace(/'/g, "\\'")}')">
-            <div class="healthCircle ${status}">${x.score}</div>
-            <div class="healthInfo">
-              <span class="healthTitle">${safe(x.policy)}</span>
-              <div class="healthMeta">
-                <span class="healthFindingsBadge">${x.findings} findings</span>
-                <span>Reviewed: ${safe(formatDate(x.lastReviewed))}</span>
-              </div>
-            </div>
-          </button>
-        `;
-      }).join('');
-    }
+
     
     window.filterPolicy = p => {
       activePolicy = activePolicy === p ? '' : p;
-      renderHealth();
+      renderReviewGrid(lastResult);
       renderFindings();
     };
 
@@ -2866,7 +2817,22 @@
     }
 
     function renderReviewGrid(r) {
+      const formatDate = (dateStr) => {
+        if (!dateStr || dateStr === "None" || dateStr === "Not scheduled") return dateStr;
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          const d = new Date(parts[0], parts[1] - 1, parts[2]);
+          if (!isNaN(d.getTime())) {
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+          }
+        }
+        return dateStr;
+      };
+
       el('reviewGrid').innerHTML = r.timeline.map(x => {
+        const ph = r.policyHealth.find(p => p.policy === x.policy) || { score: 0, findings: 0 };
+        const circleStatus = ph.score >= 85 ? 'good' : ph.score >= 70 ? 'warning' : 'danger';
+        
         const nextDate = new Date(x.date);
         if (!isNaN(nextDate.getTime())) {
           nextDate.setFullYear(nextDate.getFullYear() + 1);
@@ -2887,22 +2853,25 @@
         }
         
         return `
-          <div class="reviewStatusCard">
-            <div class="cardHeader">
-              <strong>${safe(x.policy)}</strong>
+          <button class="reviewStatusCard ${activePolicy === x.policy ? 'selected' : ''}" onclick="filterPolicy('${x.policy.replace(/'/g, "\\'")}')">
+            <div class="cardHeader" style="align-items: center;">
+              <div style="display: flex; gap: 12px; align-items: center; overflow: hidden;">
+                <div class="healthCircle ${circleStatus}" style="width: 36px; height: 36px; font-size: 13px;">${ph.score}</div>
+                <strong>${safe(x.policy)}</strong>
+              </div>
               <span class="statusBadge ${statusClass}">${statusText}</span>
             </div>
             <div class="cardBody">
               <div class="cardField">
                 <small>Last Reviewed</small>
-                <span>${safe(x.date)}</span>
+                <span style="font-size: 13px; font-weight: 600;">${safe(formatDate(x.date))}</span>
               </div>
               <div class="cardField">
                 <small>Next Review Date</small>
-                <span>${nextStr}</span>
+                <span style="font-size: 13px; font-weight: 600;">${safe(formatDate(nextStr))}</span>
               </div>
             </div>
-          </div>
+          </button>
         `;
       }).join('');
     }
