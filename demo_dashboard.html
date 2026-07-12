@@ -164,6 +164,11 @@
       color: #b91c1c;
       border-color: #fca5a5;
     }
+    .statusBadge.missing {
+      background-color: #f3e8ff;
+      color: #7e22ce;
+      border-color: #d8b4fe;
+    }
     body.dark .statusBadge.good {
       background-color: rgba(21, 128, 61, 0.2) !important;
       color: #86efac !important;
@@ -178,6 +183,11 @@
       background-color: rgba(185, 28, 28, 0.2) !important;
       color: #fca5a5 !important;
       border-color: rgba(239, 68, 68, 0.4) !important;
+    }
+    body.dark .statusBadge.missing {
+      background-color: rgba(126, 34, 206, 0.2) !important;
+      color: #d8b4fe !important;
+      border-color: rgba(168, 85, 247, 0.4) !important;
     }
 
     .reportMain {
@@ -2845,7 +2855,7 @@
           statusClass = 'danger';
           statusText = 'Overdue';
         } else if (x.status === 'missing') {
-          statusClass = 'danger';
+          statusClass = 'missing';
           statusText = 'Missing Metadata';
         } else if (x.ageDays && x.ageDays > 330) {
           statusClass = 'warning';
