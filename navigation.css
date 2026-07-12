@@ -303,7 +303,7 @@ body.presentation .panel {
 /* Toast Popups */
 #toasts {
   position: fixed;
-  top: 24px;
+  top: 80px;
   right: 24px;
   z-index: 999;
   display: flex;
