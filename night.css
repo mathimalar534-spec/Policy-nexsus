@@ -238,3 +238,67 @@ body.dark .complianceScores > div {
 body.dark .complianceScores i {
   background-color: #1e293b !important;
 }
+
+/* Report Paper Dark Overrides */
+body.dark .reportPaper {
+  background: var(--bg-panel) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+body.dark .reportTitle, 
+body.dark .reportSection h3, 
+body.dark .metaItem span, 
+body.dark .reportParagraph {
+  color: var(--text-main) !important;
+}
+body.dark .reportSubtitle, 
+body.dark .metaItem strong, 
+body.dark .reportScoreLabel {
+  color: var(--text-muted) !important;
+}
+body.dark .reportSidebar {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+}
+body.dark .reportScoreWidget {
+  background-color: #0b1f38 !important;
+  border-color: #1e3a8a !important;
+}
+body.dark .reportDivider {
+  background-color: var(--border) !important;
+}
+body.dark .reportFindingItem {
+  background-color: #450a0a !important;
+  border-color: #7f1d1d !important;
+}
+body.dark .reportFindingItem.high,
+body.dark .reportFindingItem.medium {
+  background-color: #451a03 !important;
+  border-color: #78350f !important;
+}
+body.dark .reportFindingItem.low {
+  background-color: #0b1e36 !important;
+  border-color: #1e3a8a !important;
+}
+body.dark .reportFindingItem h4 {
+  color: #fecaca !important;
+}
+body.dark .reportFindingItem.high h4, 
+body.dark .reportFindingItem.medium h4 {
+  color: #fde68a !important;
+}
+body.dark .reportFindingItem.low h4 {
+  color: #93c5fd !important;
+}
+body.dark .reportFindingItem p {
+  color: var(--text-main) !important;
+}
+body.dark .reportFindingItem .evidence {
+  background-color: #0b0f19 !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+body.dark .reportSignatureRow span {
+  color: var(--text-muted) !important;
+}

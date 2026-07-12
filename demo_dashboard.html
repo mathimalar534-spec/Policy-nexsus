@@ -1931,16 +1931,14 @@
         }
       }
       
-      // Group findings of same kind and topic (e.g. CONFLICT:password)
+      // Merge multi-policy conflicts and redundancies on the same topic
       const groupedFindings = [];
       const conflictGroups = new Map();
-      
       findings.forEach(f => {
         if (f.kind === 'CONFLICT' || f.kind === 'REDUNDANCY') {
           const topicMatch = f.title.match(/regarding\s+(\w+)/i);
           const topic = topicMatch ? topicMatch[1] : 'general';
           const groupKey = `${f.kind}:${topic}`;
-          
           if (!conflictGroups.has(groupKey)) {
             conflictGroups.set(groupKey, []);
           }
@@ -1949,7 +1947,6 @@
           groupedFindings.push(f);
         }
       });
-      
       conflictGroups.forEach((group, key) => {
         if (group.length === 1) {
           groupedFindings.push(group[0]);
@@ -1957,23 +1954,11 @@
           const first = group[0];
           const allPolicies = new Set();
           const uniqueEvidenceLines = new Set();
-          
           group.forEach(f => {
             if (f.policies) f.policies.forEach(p => allPolicies.add(p));
             const lines = f.evidence.split(/\s+vs\s+|\n/).map(l => l.trim()).filter(Boolean);
-            lines.forEach(line => {
-              // Strip leading/trailing single/double quotes from evidence lines
-              let cleanedLine = line.trim();
-              if (cleanedLine.startsWith("'") || cleanedLine.startsWith('"')) {
-                cleanedLine = cleanedLine.slice(1);
-              }
-              if (cleanedLine.endsWith("'") || cleanedLine.endsWith('"')) {
-                cleanedLine = cleanedLine.slice(0, -1);
-              }
-              uniqueEvidenceLines.add(cleanedLine.trim());
-            });
+            lines.forEach(line => uniqueEvidenceLines.add(line));
           });
-          
           groupedFindings.push({
             title: first.title,
             kind: first.kind,
@@ -1985,19 +1970,13 @@
           });
         }
       });
-      
       findings = groupedFindings;
-      
-      // Recalculate severity counts based on final grouped findings
-      severityCounts.critical = 0;
-      severityCounts.high = 0;
-      severityCounts.medium = 0;
-      severityCounts.low = 0;
-      findings.forEach(f => {
-        if (f.severity && severityCounts[f.severity] !== undefined) {
-          severityCounts[f.severity]++;
-        }
-      });
+
+      // Recalculate severity counts based on grouped findings
+      severityCounts.critical = findings.filter(f => f.severity === 'critical').length;
+      severityCounts.high = findings.filter(f => f.severity === 'high').length;
+      severityCounts.medium = findings.filter(f => f.severity === 'medium').length;
+      severityCounts.low = findings.filter(f => f.severity === 'low').length;
       
       const totalScore = Math.max(0, 100 - findings.reduce((sum, f) => sum + ({ critical: 25, high: 15, medium: 7, low: 3 }[f.severity] || 0), 0));
       
@@ -2870,14 +2849,12 @@
       };
 
       if (parts.length >= 2 && policies && policies.length >= 2) {
-        const formattedParts = [];
-        for (let idx = 0; idx < parts.length; idx++) {
-          const pol = policies[idx] || policies[policies.length - 1];
-          formattedParts.push(formatPart(parts[idx], pol));
-        }
+        const partA = formatPart(parts[0], policies[0]);
+        const partB = formatPart(parts[1], policies[1]);
         return `
           <div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">
-            ${formattedParts.map((p, idx) => `<div style="${idx > 0 ? 'margin-top: 4px;' : ''}">${safe(p)}</div>`).join('')}
+            <div>${safe(partA)}</div>
+            <div style="margin-top: 4px;">${safe(partB)}</div>
           </div>
         `;
       }
