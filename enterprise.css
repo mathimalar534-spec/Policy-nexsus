@@ -263,20 +263,20 @@ header {
   background-color: #f8fafc;
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 16px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   transition: all 0.2s;
 }
 .metric strong {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 800;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text-main);
 }
 .metric span {
-  font-size: 11px;
+  font-size: 9.5px;
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 600;
