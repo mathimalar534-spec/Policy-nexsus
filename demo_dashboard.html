@@ -1453,7 +1453,7 @@
           </div>
           <div class="border-left-slate pl-6 space-y-4">
             <p class="eyebrow">COMPLIANCE INSTRUCTION</p>
-            <h3>Remediation Steps</h3>
+            <h3>Mandatory Remediation Checklist</h3>
             <ul id="recommendations" class="list-bullet"></ul>
             <div class="actionGroup">
               <button id="download" class="button primary">Download JSON Findings</button>
@@ -1930,6 +1930,74 @@
           }
         }
       }
+      
+      // Group findings of same kind and topic (e.g. CONFLICT:password)
+      const groupedFindings = [];
+      const conflictGroups = new Map();
+      
+      findings.forEach(f => {
+        if (f.kind === 'CONFLICT' || f.kind === 'REDUNDANCY') {
+          const topicMatch = f.title.match(/regarding\s+(\w+)/i);
+          const topic = topicMatch ? topicMatch[1] : 'general';
+          const groupKey = `${f.kind}:${topic}`;
+          
+          if (!conflictGroups.has(groupKey)) {
+            conflictGroups.set(groupKey, []);
+          }
+          conflictGroups.get(groupKey).push(f);
+        } else {
+          groupedFindings.push(f);
+        }
+      });
+      
+      conflictGroups.forEach((group, key) => {
+        if (group.length === 1) {
+          groupedFindings.push(group[0]);
+        } else {
+          const first = group[0];
+          const allPolicies = new Set();
+          const uniqueEvidenceLines = new Set();
+          
+          group.forEach(f => {
+            if (f.policies) f.policies.forEach(p => allPolicies.add(p));
+            const lines = f.evidence.split(/\s+vs\s+|\n/).map(l => l.trim()).filter(Boolean);
+            lines.forEach(line => {
+              // Strip leading/trailing single/double quotes from evidence lines
+              let cleanedLine = line.trim();
+              if (cleanedLine.startsWith("'") || cleanedLine.startsWith('"')) {
+                cleanedLine = cleanedLine.slice(1);
+              }
+              if (cleanedLine.endsWith("'") || cleanedLine.endsWith('"')) {
+                cleanedLine = cleanedLine.slice(0, -1);
+              }
+              uniqueEvidenceLines.add(cleanedLine.trim());
+            });
+          });
+          
+          groupedFindings.push({
+            title: first.title,
+            kind: first.kind,
+            severity: first.severity,
+            policies: Array.from(allPolicies),
+            evidence: Array.from(uniqueEvidenceLines).join('\n'),
+            scopeAnalysis: first.scopeAnalysis,
+            recommendation: first.recommendation
+          });
+        }
+      });
+      
+      findings = groupedFindings;
+      
+      // Recalculate severity counts based on final grouped findings
+      severityCounts.critical = 0;
+      severityCounts.high = 0;
+      severityCounts.medium = 0;
+      severityCounts.low = 0;
+      findings.forEach(f => {
+        if (f.severity && severityCounts[f.severity] !== undefined) {
+          severityCounts[f.severity]++;
+        }
+      });
       
       const totalScore = Math.max(0, 100 - findings.reduce((sum, f) => sum + ({ critical: 25, high: 15, medium: 7, low: 3 }[f.severity] || 0), 0));
       
@@ -2802,12 +2870,14 @@
       };
 
       if (parts.length >= 2 && policies && policies.length >= 2) {
-        const partA = formatPart(parts[0], policies[0]);
-        const partB = formatPart(parts[1], policies[1]);
+        const formattedParts = [];
+        for (let idx = 0; idx < parts.length; idx++) {
+          const pol = policies[idx] || policies[policies.length - 1];
+          formattedParts.push(formatPart(parts[idx], pol));
+        }
         return `
           <div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">
-            <div>${safe(partA)}</div>
-            <div style="margin-top: 4px;">${safe(partB)}</div>
+            ${formattedParts.map((p, idx) => `<div style="${idx > 0 ? 'margin-top: 4px;' : ''}">${safe(p)}</div>`).join('')}
           </div>
         `;
       }
@@ -2834,10 +2904,6 @@
         ? `<div class="detail"><b>Scope analysis</b><span>${safe(f.scopeAnalysis)}</span></div>`
         : '';
         
-      const recHtml = f.recommendation
-        ? `<p class="rec-action"><b>Recommended action:</b> ${safe(f.recommendation)}</p>`
-        : '';
-        
       const polText = f.policies ? f.policies.map(safe).join(' · ') : '';
       const polHeader = polText ? `<p class="findingPolicies"><b>${polText}</b></p>` : '';
         
@@ -2850,7 +2916,6 @@
           ${polHeader}
           ${evidenceHtml}
           ${detailHtml}
-          ${recHtml}
         </article>
       `;
     };
