@@ -1561,11 +1561,11 @@
           </div>
         </section>
 
-        <!-- Consolidated Review Schedules & Policy Health -->
+        <!-- Consolidated Review Schedules -->
         <section class="panel">
-          <p class="eyebrow">POLICY REVIEW & HEALTH STATUS</p>
-          <h2>Individual policy health and review status</h2>
-          <p class="mb-4">Verification dates and health scores. Click cards to filter the identified findings list below.</p>
+          <p class="eyebrow">POLICY REVIEW STATUS</p>
+          <h2>Individual policy review status</h2>
+          <p class="mb-4">Verification dates. Click cards to filter the identified findings list below.</p>
           <div id="reviewGrid" class="reviewStatusGrid"></div>
         </section>
 
@@ -2869,10 +2869,7 @@
         return `
           <button class="reviewStatusCard ${activePolicy === x.policy ? 'selected' : ''}" onclick="filterPolicy('${x.policy.replace(/'/g, "\\'")}')">
             <div class="cardHeader">
-              <div style="display: flex; gap: 12px; align-items: center; overflow: hidden; min-width: 0;">
-                <div class="healthCircle ${circleStatus}" style="width: 36px; height: 36px; font-size: 13px;">${ph.score}</div>
-                <strong>${safe(x.policy)}</strong>
-              </div>
+              <strong>${safe(x.policy)}</strong>
               <span class="statusBadge ${statusClass}" style="flex-shrink: 0;">${statusText}</span>
             </div>
             <div class="cardBody" style="align-items: center;">
