@@ -246,7 +246,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: 60px;
 }
 .metricsGrid {
   display: grid;
@@ -300,6 +300,7 @@ header {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-left: 24px;
 }
 .widgetCircle {
   width: 145px;
