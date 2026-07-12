@@ -149,6 +149,36 @@
       width: fit-content;
       border: 1px solid #fde68a;
     }
+    .statusBadge.good {
+      background-color: #dcfce7;
+      color: #15803d;
+      border-color: #bbf7d0;
+    }
+    .statusBadge.warning {
+      background-color: #fef3c7;
+      color: #b45309;
+      border-color: #fde68a;
+    }
+    .statusBadge.danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border-color: #fca5a5;
+    }
+    body.dark .statusBadge.good {
+      background-color: rgba(21, 128, 61, 0.2) !important;
+      color: #86efac !important;
+      border-color: rgba(34, 197, 94, 0.4) !important;
+    }
+    body.dark .statusBadge.warning {
+      background-color: rgba(180, 83, 9, 0.2) !important;
+      color: #fde047 !important;
+      border-color: rgba(234, 179, 8, 0.4) !important;
+    }
+    body.dark .statusBadge.danger {
+      background-color: rgba(185, 28, 28, 0.2) !important;
+      color: #fca5a5 !important;
+      border-color: rgba(239, 68, 68, 0.4) !important;
+    }
 
     .reportMain {
       display: flex;
@@ -1507,6 +1537,14 @@
           </div>
         </section>
 
+        <!-- Review Schedules Timeline -->
+        <section class="panel">
+          <p class="eyebrow">REVIEW SCHEDULES</p>
+          <h2>Policy review status</h2>
+          <p class="mb-4">Verification dates and currency statuses for audited records.</p>
+          <div id="reviewGrid" class="reviewStatusGrid"></div>
+        </section>
+
         <!-- Dynamic Policy Health Cards -->
         <section class="panel">
           <p class="eyebrow">HEALTH SCORES</p>
@@ -1518,18 +1556,6 @@
         <!-- Dynamic Findings Candidates List -->
         <section id="findings" class="space-y-4">
           <!-- Findings render here -->
-        </section>
-
-
-
-
-
-        <!-- Review Schedules Timeline -->
-        <section class="panel">
-          <p class="eyebrow">REVIEW SCHEDULES</p>
-          <h2>Policy review status</h2>
-          <p class="mb-4">Verification dates and currency statuses for audited records.</p>
-          <div id="reviewGrid" class="reviewStatusGrid"></div>
         </section>
 
         <!-- Topic Coverage Analysis -->
