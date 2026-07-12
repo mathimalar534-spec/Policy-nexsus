@@ -2541,9 +2541,14 @@
       
       setTxt('score', `${risk}/100`);
       const scoreLabel = el('scoreLabel');
+      const radialWidget = document.querySelector('.radialWidget');
+      const ringColor = risk > 75 ? 'var(--success)' : risk > 45 ? 'var(--warning)' : 'var(--danger)';
       if (scoreLabel) {
         scoreLabel.textContent = risk > 75 ? 'Healthy baseline' : risk > 45 ? 'Attention required' : 'Critical review needed';
-        scoreLabel.style.color = risk > 75 ? 'var(--success)' : risk > 45 ? 'var(--warning)' : 'var(--danger)';
+        scoreLabel.style.color = ringColor;
+      }
+      if (radialWidget) {
+        radialWidget.style.background = `conic-gradient(${ringColor} ${risk}%, var(--border) 0)`;
       }
       setTxt('executiveSummary', r.executive.summary);
       setTxt('governanceScore', `${r.executive.score}/100`);
@@ -3079,7 +3084,7 @@
           labels: topicsLabels,
           datasets: [{
             data: topicsData,
-            backgroundColor: ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8', '#cbd5e1', '#e2e8f0'],
+            backgroundColor: ['#0ea5e9', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#6366f1'],
             borderWidth: 1
           }]
         },
@@ -3099,7 +3104,7 @@
       
       const sevLabels = ['Critical', 'High', 'Medium', 'Low', 'Informational'];
       const sevData = [sevCounts.critical, sevCounts.high, sevCounts.medium, sevCounts.low, sevCounts.info];
-      const sevColors = ['#0f172a', '#334155', '#64748b', '#94a3b8', '#cbd5e1'];
+      const sevColors = ['#ef4444', '#f59e0b', '#fbbf24', '#3b82f6', '#94a3b8'];
       
       const ctx3 = el('severityPieChart').getContext('2d');
       severityPieChart = new Chart(ctx3, {
