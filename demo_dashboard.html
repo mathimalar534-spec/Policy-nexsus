@@ -2711,21 +2711,35 @@
       
       const formatPart = (txt, polFile) => {
         let formatted = txt.trim();
+        
+        if (formatted.startsWith("'") || formatted.startsWith('"')) {
+          formatted = formatted.slice(1);
+        }
+        if (formatted.endsWith("'") || formatted.endsWith('"')) {
+          formatted = formatted.slice(0, -1);
+        }
+        formatted = formatted.trim();
+
         const cleanName = polFile.replace(/\.[a-zA-Z0-9]+$/, '').trim();
+        const mdReg = new RegExp(cleanName + '\\.md\\s*[:\\-]?\\s*', 'gi');
+        formatted = formatted.replace(mdReg, '');
+        const nameReg = new RegExp(cleanName + '\\s*[:\\-]?\\s*', 'gi');
+        formatted = formatted.replace(nameReg, '');
         
-        const mdReg = new RegExp(cleanName + '\\.md', 'gi');
-        formatted = formatted.replace(mdReg, cleanName);
-        
-        const nameReg = new RegExp(cleanName + '\\b', 'gi');
-        formatted = formatted.replace(nameReg, polFile + ' :');
-        
-        formatted = formatted.replace(/:\s*:/g, ':').trim();
-        
+        formatted = formatted.trim();
+        if (formatted.startsWith("'") || formatted.startsWith('"')) {
+          formatted = formatted.slice(1);
+        }
+        if (formatted.endsWith("'") || formatted.endsWith('"')) {
+          formatted = formatted.slice(0, -1);
+        }
+        formatted = formatted.trim();
+
         if (formatted.length > 0) {
           formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
         }
         formatted = formatted.replace(/[.,;]+$/, '').trim();
-        return formatted;
+        return `${polFile} : "${formatted}"`;
       };
 
       if (parts.length >= 2 && policies && policies.length >= 2) {
@@ -2733,8 +2747,8 @@
         const partB = formatPart(parts[1], policies[1]);
         return `
           <div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">
-            <div>• ${safe(partA)}</div>
-            <div style="margin-top: 4px;">• ${safe(partB)}</div>
+            <div>${safe(partA)}</div>
+            <div style="margin-top: 4px;">${safe(partB)}</div>
           </div>
         `;
       }
@@ -2748,7 +2762,7 @@
         });
         formattedEvidence = formattedEvidence.replace(/:\s*:/g, ':').trim();
       }
-      return `<div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">• ${safe(formattedEvidence)}</div>`;
+      return `<div class="evidence" style="line-height:1.8; font-size:13.5px; color:var(--text-main); font-weight: 500;">${safe(formattedEvidence)}</div>`;
     }
 
     window.renderFindingCard = f => {
