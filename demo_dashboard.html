@@ -1976,7 +1976,7 @@
         executive: {
           summary: `Compliance audit mapped ${all_obligations.length} controls across ${docs.length} policies. Identified ${findings.filter(f=>f.kind==='CONFLICT').length} contradiction(s) and ${findings.filter(f=>f.kind==='REDUNDANCY').length} redundancy/redundancies.`,
           score: totalScore,
-          recommendations: findings.filter(f => f.severity === 'critical' || f.severity === 'high').map(f => f.recommendation)
+          recommendations: Array.from(new Set(findings.filter(f => f.severity === 'critical' || f.severity === 'high').map(f => f.recommendation).filter(Boolean)))
         },
         timeline: timeline,
         coverage: coverage,
