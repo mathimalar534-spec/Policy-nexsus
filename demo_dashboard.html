@@ -2642,6 +2642,18 @@
     }
 
     function renderHealth() {
+      const formatDate = (dateStr) => {
+        if (!dateStr || dateStr === "None") return "None";
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          const d = new Date(parts[0], parts[1] - 1, parts[2]);
+          if (!isNaN(d.getTime())) {
+            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+          }
+        }
+        return dateStr;
+      };
+      
       el('healthCards').innerHTML = lastResult.policyHealth.map(x => {
         const status = x.score >= 85 ? 'good' : x.score >= 70 ? 'warning' : 'danger';
         return `
@@ -2651,7 +2663,7 @@
               <span class="healthTitle">${safe(x.policy)}</span>
               <div class="healthMeta">
                 <span class="healthFindingsBadge">${x.findings} findings</span>
-                <span>Reviewed: ${safe(x.lastReviewed)}</span>
+                <span>Reviewed: ${safe(formatDate(x.lastReviewed))}</span>
               </div>
             </div>
           </button>
